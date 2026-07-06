@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800">
+<rect width="600" height="800" fill="#f4f4f2"/>
+<g fill="none" stroke="#161616" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M272,150 L210,162 L178,360 L220,372 L234,280 L236,528 L364,528 L366,280 L380,372 L422,360 L390,162 L328,150 Q300,166 272,150 Z"/>
+<path d="M264,138 Q300,156 336,138 M264,138 L272,150 M336,138 L328,150"/>
+<path d="M296,166 L296,528 M304,166 L304,528"/>
+<path d="M182,344 L224,356 M418,344 L376,356"/>
+</g>
+<g fill="none" stroke="#161616" stroke-width="1.5" stroke-dasharray="7 6">
+<path d="M240,516 L360,516"/>
+<path d="M240,186 Q300,200 360,186"/>
+</g>
+<g fill="#161616"><circle cx="300" cy="190" r="3.5"/><circle cx="300" cy="250" r="3.5"/><circle cx="300" cy="310" r="3.5"/><circle cx="300" cy="370" r="3.5"/><circle cx="300" cy="430" r="3.5"/><circle cx="300" cy="490" r="3.5"/><circle cx="200" cy="362" r="2.5"/><circle cx="400" cy="362" r="2.5"/></g>
+<g fill="#161616" opacity=".55"><rect x="294" y="702" width="3" height="14"/><rect x="303" y="702" width="3" height="14"/><rect x="294" y="722" width="3" height="14"/><rect x="303" y="722" width="3" height="14"/></g>
+<text x="300" y="764" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="4" fill="#8a8a8a" text-anchor="middle">aseed / no.11</text>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800">
+<rect width="600" height="800" fill="#f4f4f2"/>
+<g fill="none" stroke="#161616" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M212,356 Q300,116 388,356"/>
+<path d="M228,356 Q300,140 372,356"/>
+<path d="M210,360 L390,360 L396,556 L204,556 Z"/>
+<path d="M204,356 L396,356 L398,470 L202,470 Z"/>
+<path d="M286,470 L286,502 L314,502 L314,470"/>
+</g>
+<g fill="none" stroke="#161616" stroke-width="1.5" stroke-dasharray="7 6">
+<path d="M212,456 L388,456"/>
+<path d="M210,542 L390,542"/>
+</g>
+<g fill="#161616"><circle cx="300" cy="488" r="3.5"/></g>
+<g fill="#161616" opacity=".55"><rect x="294" y="702" width="3" height="14"/><rect x="303" y="702" width="3" height="14"/><rect x="294" y="722" width="3" height="14"/><rect x="303" y="722" width="3" height="14"/></g>
+<text x="300" y="764" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="4" fill="#8a8a8a" text-anchor="middle">aseed / no.22</text>
+</svg>

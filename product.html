@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>aseed — PRODUCT</title>
+  <meta name="description" content="aseed — online store product detail">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='22' font-family='Helvetica' font-size='18' fill='%23fff' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/product.css">
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <button class="menu-toggle" id="menuToggle" aria-label="メニュー" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+    <a class="brand-mark" href="index.html">aseed</a>
+    <nav class="site-nav" id="siteNav" aria-label="メイン">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="about.html">MAISON</a></li>
+        <li><a href="store.html">ONLINE STORE</a></li>
+      </ul>
+    </nav>
+    <div class="header-tools">
+      <a class="cart-link" href="cart.html" aria-label="カート">
+        CART<span class="cart-count" data-cart-count>0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="product-page" id="productPage">
+
+  <!-- NOT FOUND state -->
+  <section class="product-notfound" id="notFound" hidden>
+    <div class="stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <h1 class="notfound-title">ITEM NOT FOUND</h1>
+    <p class="notfound-text">お探しのアイテムは見つかりませんでした。</p>
+    <a class="btn-line" href="store.html">BACK TO STORE</a>
+  </section>
+
+  <!-- PRODUCT detail -->
+  <article class="product-detail" id="productDetail" hidden>
+    <div class="product-layout">
+
+      <div class="product-media">
+        <figure class="product-figure">
+          <img id="productImage" src="" alt="">
+        </figure>
+      </div>
+
+      <div class="product-info">
+        <nav class="breadcrumb" aria-label="パンくずリスト">
+          <a href="store.html">ONLINE STORE</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <a href="store.html" id="breadcrumbCategory">CATEGORY</a>
+        </nav>
+
+        <p class="product-brand">aseed</p>
+        <h1 class="product-name" id="productName"></h1>
+        <p class="product-name-ja" id="productNameJa"></p>
+        <p class="product-line" id="productLine"></p>
+        <p class="product-price"><span id="productPrice"></span><span class="price-note">（税込）</span></p>
+
+        <div class="select-group" id="colorGroup">
+          <p class="select-label" id="colorLabel">COLOR <span class="select-value" id="colorValue"></span></p>
+          <div class="option-row" id="colorOptions" role="group" aria-labelledby="colorLabel"></div>
+        </div>
+
+        <div class="select-group" id="sizeGroup">
+          <p class="select-label" id="sizeLabel">SIZE <span class="select-value" id="sizeValue"></span></p>
+          <div class="option-row" id="sizeOptions" role="group" aria-labelledby="sizeLabel"></div>
+        </div>
+
+        <div class="select-group">
+          <p class="select-label" id="qtyLabel">QTY</p>
+          <div class="qty-stepper" role="group" aria-labelledby="qtyLabel">
+            <button type="button" class="qty-btn" id="qtyMinus" aria-label="数量を減らす">−</button>
+            <span class="qty-value" id="qtyValue" aria-live="polite">1</span>
+            <button type="button" class="qty-btn" id="qtyPlus" aria-label="数量を増やす">＋</button>
+          </div>
+        </div>
+
+        <button type="button" class="add-to-cart" id="addToCart" disabled>ADD TO CART</button>
+        <p class="select-hint" id="selectHint">カラーとサイズを選択してください</p>
+
+        <button type="button" class="fav-toggle" id="favToggle" aria-pressed="false">
+          <span class="fav-heart" aria-hidden="true">♡</span><span class="fav-text">ADD TO FAVORITES</span>
+        </button>
+
+        <p class="product-desc" id="productDesc"></p>
+
+        <div class="product-accordion">
+          <details class="acc-item">
+            <summary>詳細<span class="acc-mark" aria-hidden="true">＋</span></summary>
+            <div class="acc-body">
+              <p>本体：ウール、コットンなどの天然素材を中心に構成。縫製は東京のアトリエにて一点ずつ仕上げています。内側のブランクレーベルは四つのステッチのみで留められています。</p>
+              <p>製品の特性上、個体ごとに風合い・寸法にわずかな差が生じます。それも意匠の一部としてお楽しみください。</p>
+            </div>
+          </details>
+          <details class="acc-item">
+            <summary>サイズガイド<span class="acc-mark" aria-hidden="true">＋</span></summary>
+            <div class="acc-body">
+              <p>サイズ1：着丈68 / 身幅52 / 肩幅44（cm）<br>
+                 サイズ2：着丈71 / 身幅55 / 肩幅46（cm）<br>
+                 サイズ3：着丈74 / 身幅58 / 肩幅48（cm）</p>
+              <p>シューズは EU 表記（40–43）、バッグ・アクセサリーは FREE サイズです。平置き採寸のため多少の誤差があります。</p>
+            </div>
+          </details>
+          <details class="acc-item">
+            <summary>配送・返品<span class="acc-mark" aria-hidden="true">＋</span></summary>
+            <div class="acc-body">
+              <p>送料は全国一律¥800、¥30,000以上のご注文で送料無料。ご注文から2〜4営業日以内に発送します。</p>
+              <p>未使用・タグ付きの商品は到着後7日以内に限り返品を承ります。※本ストアはコンセプトデモのため、実際の注文・配送は行われません。</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+    </div>
+
+    <section class="related" id="relatedSection" hidden>
+      <h2 class="related-title">RELATED ITEMS</h2>
+      <div class="related-grid" id="relatedGrid"></div>
+    </section>
+  </article>
+
+</main>
+
+<div class="toast" id="cartToast" role="status" aria-live="polite">
+  <span class="toast-text">カートに追加しました</span>
+  <a class="toast-link" href="cart.html">VIEW CART</a>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <p class="footer-brand">aseed</p>
+    <nav class="footer-nav" aria-label="フッター">
+      <a href="index.html">HOME</a>
+      <a href="about.html">MAISON</a>
+      <a href="store.html">ONLINE STORE</a>
+      <a href="cart.html">CART</a>
+    </nav>
+    <p class="footer-note">&copy; 2026 aseed. This is a concept store — orders are not fulfilled.</p>
+  </div>
+</footer>
+
+<script src="js/products.js" defer></script>
+<script src="js/cart.js" defer></script>
+<script src="js/product.js" defer></script>
+</body>
+</html>

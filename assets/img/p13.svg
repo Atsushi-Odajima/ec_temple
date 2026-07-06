@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800">
+<rect width="600" height="800" fill="#f4f4f2"/>
+<g fill="none" stroke="#161616" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M268,152 L212,164 L182,252 L226,272 L240,236 L238,500 L362,500 L360,236 L374,272 L418,252 L388,164 L332,152 Q300,172 268,152 Z"/>
+<path d="M272,158 Q300,180 328,158"/>
+<path d="M238,486 L362,486"/>
+<path d="M186,244 L228,263 M414,244 L372,263"/>
+</g>
+<g fill="#161616" opacity=".7">
+<rect x="292" y="292" width="2.5" height="9"/><rect x="300" y="292" width="2.5" height="9"/><rect x="292" y="306" width="2.5" height="9"/><rect x="300" y="306" width="2.5" height="9"/>
+</g>
+<g fill="#161616" opacity=".55"><rect x="294" y="702" width="3" height="14"/><rect x="303" y="702" width="3" height="14"/><rect x="294" y="722" width="3" height="14"/><rect x="303" y="722" width="3" height="14"/></g>
+<text x="300" y="764" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="4" fill="#8a8a8a" text-anchor="middle">aseed / no.13</text>
+</svg>
