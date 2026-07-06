@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800">
+<rect width="600" height="800" fill="#f4f4f2"/>
+<g fill="none" stroke="#161616" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M268,152 L206,166 L190,420 L228,426 L240,300 L238,516 L362,516 L360,300 L372,426 L410,420 L394,166 L332,152 Q300,176 268,152 Z"/>
+<path d="M274,158 Q300,180 326,158"/>
+<path d="M238,500 L362,500"/>
+<path d="M194,406 L230,412 M406,406 L370,412"/>
+</g>
+<g fill="none" stroke="#161616" stroke-width="1.5">
+<path d="M250,503 L250,514 M266,503 L266,514 M282,503 L282,514 M298,503 L298,514 M314,503 L314,514 M330,503 L330,514 M346,503 L346,514"/>
+</g>
+<g fill="none" stroke="#161616" stroke-width="1.5" stroke-dasharray="7 6">
+<path d="M240,300 Q230,236 216,176 M360,300 Q370,236 384,176"/>
+<path d="M232,166 L268,156 M368,166 L332,156"/>
+</g>
+<g fill="#161616" opacity=".55"><rect x="294" y="702" width="3" height="14"/><rect x="303" y="702" width="3" height="14"/><rect x="294" y="722" width="3" height="14"/><rect x="303" y="722" width="3" height="14"/></g>
+<text x="300" y="764" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="4" fill="#8a8a8a" text-anchor="middle">aseed / no.15</text>
+</svg>

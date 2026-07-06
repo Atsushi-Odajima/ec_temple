@@ -1,0 +1,381 @@
+/* ==========================================================================
+   aseed — home.css (Agent HOME)
+   Page-specific styles for index.html only.
+   Depends on css/style.css design tokens (§2 of DESIGN_SPEC).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Shared section scaffolding
+   -------------------------------------------------------------------------- */
+
+.home-section-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+@media (min-width: 1024px) {
+  .home-section-inner {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+}
+
+.home-section-title {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: var(--tracking-xwide);
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  text-align: center;
+  margin: 0 0 64px;
+}
+
+@media (min-width: 1024px) {
+  .home-section-title {
+    margin-bottom: 96px;
+  }
+}
+
+.home-section-title--light {
+  color: var(--ink-mute);
+}
+
+/* --------------------------------------------------------------------------
+   HERO — 100vh black, wordmark, caption, stitches, scroll cue
+   -------------------------------------------------------------------------- */
+
+.home-hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--black);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.home-hero__inner {
+  text-align: center;
+  padding: 0 24px;
+}
+
+.home-hero__wordmark {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(48px, 10vw, 140px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--white);
+  letter-spacing: var(--tracking-xwide);
+  /* keep optical centering despite trailing letter-space */
+  padding-left: var(--tracking-xwide);
+  text-transform: lowercase;
+  animation: hero-wordmark-in 2.4s var(--ease) both;
+}
+
+.home-hero__caption {
+  margin: 28px 0 0;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: var(--tracking-wide);
+  color: #9a9a9a;
+  text-transform: uppercase;
+  animation: hero-fade-in 1.8s var(--ease) 0.9s both;
+}
+
+/* four-stitch motif, white, below caption */
+.home-hero__stitches {
+  display: inline-grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 6px;
+  margin-top: 44px;
+  color: var(--white);
+  animation: hero-fade-in 1.8s var(--ease) 1.4s both;
+}
+
+.home-hero__stitches i {
+  display: block;
+  width: 1px;
+  height: 10px;
+  background: currentColor;
+}
+
+/* scroll cue */
+.home-hero__scrollcue {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  animation: hero-fade-in 1.8s var(--ease) 2s both;
+}
+
+.home-hero__scrolltext {
+  font-size: 10px;
+  letter-spacing: var(--tracking-wide);
+  color: #9a9a9a;
+  text-transform: uppercase;
+}
+
+.home-hero__scrollline {
+  display: block;
+  width: 1px;
+  height: 64px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+  overflow: hidden;
+  position: relative;
+}
+
+.home-hero__scrollline::after {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: var(--white);
+  animation: scroll-drip 2.6s var(--ease) 2.4s infinite;
+}
+
+/* load animations (CSS only) */
+@keyframes hero-wordmark-in {
+  0% {
+    opacity: 0;
+    letter-spacing: 0.6em;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    letter-spacing: var(--tracking-xwide);
+    filter: blur(0);
+  }
+}
+
+@keyframes hero-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scroll-drip {
+  0%   { top: -100%; }
+  60%  { top: 100%; }
+  100% { top: 100%; }
+}
+
+/* --------------------------------------------------------------------------
+   COLLECTION — 3 featured items
+   -------------------------------------------------------------------------- */
+
+.home-collection {
+  padding: 120px 0;
+  background: var(--paper);
+}
+
+@media (min-width: 1024px) {
+  .home-collection {
+    padding: 180px 0;
+  }
+}
+
+.home-collection__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 56px;
+}
+
+@media (min-width: 640px) {
+  .home-collection__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-collection__grid {
+    gap: 48px;
+  }
+}
+
+.home-item {
+  display: block;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.home-item__media {
+  display: block;
+  background: var(--paper-warm);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+
+.home-item__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease), opacity 0.3s var(--ease);
+}
+
+.home-item:hover .home-item__media img,
+.home-item:focus-visible .home-item__media img {
+  transform: scale(1.03);
+}
+
+.home-item__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 16px;
+  text-align: center;
+}
+
+.home-item__name {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transition: color 0.3s var(--ease);
+}
+
+.home-item:hover .home-item__name {
+  color: var(--ink-mute);
+}
+
+.home-item__price {
+  font-size: 12px;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+}
+
+/* --------------------------------------------------------------------------
+   MAISON — inverted black band
+   -------------------------------------------------------------------------- */
+
+.home-maison {
+  padding: 140px 0;
+  background: var(--black);
+  color: var(--paper);
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .home-maison {
+    padding: 200px 0;
+  }
+}
+
+.home-maison__line {
+  margin: 0;
+  font-size: clamp(18px, 3.4vw, 30px);
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  line-height: 2;
+  color: var(--paper);
+}
+
+.home-maison__link {
+  display: inline-block;
+  margin-top: 56px;
+  font-size: 11px;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--paper);
+  text-decoration: none;
+  border-bottom: 1px solid var(--paper);
+  padding-bottom: 6px;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.home-maison__link:hover,
+.home-maison__link:focus-visible {
+  color: #9a9a9a;
+  border-color: #9a9a9a;
+}
+
+/* --------------------------------------------------------------------------
+   ONLINE STORE — full-width CTA band
+   -------------------------------------------------------------------------- */
+
+.home-store {
+  padding: 120px 0 140px;
+  background: var(--paper);
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+}
+
+@media (min-width: 1024px) {
+  .home-store {
+    padding: 180px 0 200px;
+  }
+}
+
+.home-store__cta {
+  display: block;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 26px 24px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: var(--tracking-xwide);
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--ink);
+  text-decoration: none;
+  border: 1px solid var(--ink);
+  background: transparent;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+}
+
+.home-store__cta:hover,
+.home-store__cta:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* --------------------------------------------------------------------------
+   Reveal-on-scroll (IntersectionObserver adds .is-visible)
+   Degrades gracefully: without JS, content stays visible via the
+   no-JS fallback in the inline script; without IO, .is-visible is
+   added immediately.
+   -------------------------------------------------------------------------- */
+
+/* hidden state only applies once JS tags the root with .has-reveal,
+   so content is fully visible when JavaScript is disabled */
+html.has-reveal .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+
+html.has-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* staggered children inside the collection grid */
+.home-collection__grid .reveal:nth-child(2) { transition-delay: 0.12s; }
+.home-collection__grid .reveal:nth-child(3) { transition-delay: 0.24s; }
+
+/* honor reduced-motion: no animation, everything visible */
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__wordmark,
+  .home-hero__caption,
+  .home-hero__stitches,
+  .home-hero__scrollcue,
+  .home-hero__scrollline::after {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

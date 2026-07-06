@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>aseed — ONLINE STORE</title>
+  <meta name="description" content="aseed オンラインストア — DECONSTRUCTED BASICS. COLLECTION 2026.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='22' font-family='Helvetica' font-size='18' fill='%23fff' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/store.css">
+  <script src="js/products.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/store.js" defer></script>
+</head>
+<body>
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <button class="menu-toggle" id="menuToggle" aria-label="メニュー" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+    <a class="brand-mark" href="index.html">aseed</a>
+    <nav class="site-nav" id="siteNav" aria-label="メイン">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="about.html">MAISON</a></li>
+        <li><a href="store.html">ONLINE STORE</a></li>
+      </ul>
+    </nav>
+    <div class="header-tools">
+      <a class="cart-link" href="cart.html" aria-label="カート">
+        CART<span class="cart-count" data-cart-count>0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="store-page">
+  <div class="store-head">
+    <h1 class="store-title">ONLINE STORE</h1>
+    <p class="store-count"><span id="storeCount">0</span> ITEMS</p>
+  </div>
+
+  <div class="store-toolbar" id="storeToolbar">
+    <div class="store-toolbar-inner">
+      <div class="store-search">
+        <label class="visually-hidden" for="storeSearch">検索</label>
+        <input type="search" id="storeSearch" class="store-search-input"
+               placeholder="SEARCH" autocomplete="off">
+      </div>
+      <div class="store-tools">
+        <label class="visually-hidden" for="storeSort">並び替え</label>
+        <select id="storeSort" class="store-sort">
+          <option value="new">新着順</option>
+          <option value="price-asc">価格が安い順</option>
+          <option value="price-desc">価格が高い順</option>
+        </select>
+        <button type="button" id="favToggle" class="fav-filter" aria-pressed="false">
+          <span class="fav-filter-heart" aria-hidden="true">♡</span> FAVORITES
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="store-cats" aria-label="カテゴリー">
+    <ul class="store-cats-list" id="catList"></ul>
+  </nav>
+
+  <section class="store-grid-wrap" aria-live="polite">
+    <ul class="store-grid" id="storeGrid"></ul>
+    <p class="store-empty" id="storeEmpty" hidden>該当するアイテムがありません</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <p class="footer-brand">aseed</p>
+    <nav class="footer-nav" aria-label="フッター">
+      <a href="index.html">HOME</a>
+      <a href="about.html">MAISON</a>
+      <a href="store.html">ONLINE STORE</a>
+      <a href="cart.html">CART</a>
+    </nav>
+    <p class="footer-note">&copy; 2026 aseed. This is a concept store — orders are not fulfilled.</p>
+  </div>
+</footer>
+</body>
+</html>

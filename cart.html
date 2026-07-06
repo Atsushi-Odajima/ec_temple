@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>aseed — CART</title>
+  <meta name="description" content="aseed オンラインストア — ショッピングカート">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='22' font-family='Helvetica' font-size='18' fill='%23fff' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/cart.css">
+  <script src="js/products.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/cart-page.js" defer></script>
+</head>
+<body>
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <button class="menu-toggle" id="menuToggle" aria-label="メニュー" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+    <a class="brand-mark" href="index.html">aseed</a>
+    <nav class="site-nav" id="siteNav" aria-label="メイン">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="about.html">MAISON</a></li>
+        <li><a href="store.html">ONLINE STORE</a></li>
+      </ul>
+    </nav>
+    <div class="header-tools">
+      <a class="cart-link" href="cart.html" aria-label="カート">
+        CART<span class="cart-count" data-cart-count>0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="cart-main">
+  <div class="cart-head">
+    <h1 class="cart-title">CART</h1>
+    <p class="cart-meta" id="cartMeta" aria-live="polite"></p>
+  </div>
+  <div id="cartContent" class="cart-content"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <p class="footer-brand">aseed</p>
+    <nav class="footer-nav" aria-label="フッター">
+      <a href="index.html">HOME</a>
+      <a href="about.html">MAISON</a>
+      <a href="store.html">ONLINE STORE</a>
+      <a href="cart.html">CART</a>
+    </nav>
+    <p class="footer-note">&copy; 2026 aseed. This is a concept store &mdash; orders are not fulfilled.</p>
+  </div>
+</footer>
+
+<div class="checkout-modal" id="checkoutModal" hidden>
+  <div class="checkout-modal__backdrop" id="checkoutModalBackdrop"></div>
+  <div class="checkout-modal__panel" role="dialog" aria-modal="true" aria-labelledby="checkoutModalTitle">
+    <div class="stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <h2 class="checkout-modal__title" id="checkoutModalTitle">THANK YOU</h2>
+    <p class="checkout-modal__text">これはコンセプトストアのデモです。実際の注文は行われません。</p>
+    <button type="button" class="checkout-modal__close" id="checkoutModalClose">閉じる</button>
+  </div>
+</div>
+</body>
+</html>

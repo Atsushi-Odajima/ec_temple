@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800">
+<rect width="600" height="800" fill="#f4f4f2"/>
+<g fill="none" stroke="#161616" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M262,154 L196,168 L172,282 L224,302 L238,262 L234,520 L366,520 L362,262 L376,302 L428,282 L404,168 L338,154 Q300,176 262,154 Z"/>
+<path d="M268,160 Q300,186 332,160"/>
+<path d="M246,240 L292,240 L292,292 L246,292 Z"/>
+<path d="M234,506 L366,506"/>
+<path d="M178,272 L228,290 M422,272 L372,290"/>
+</g>
+<g fill="none" stroke="#161616" stroke-width="1.5" stroke-dasharray="7 6">
+<path d="M248,246 L290,246"/>
+<path d="M250,280 L248,504 M350,280 L352,504"/>
+</g>
+<g fill="#161616" opacity=".55"><rect x="294" y="702" width="3" height="14"/><rect x="303" y="702" width="3" height="14"/><rect x="294" y="722" width="3" height="14"/><rect x="303" y="722" width="3" height="14"/></g>
+<text x="300" y="764" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="4" fill="#8a8a8a" text-anchor="middle">aseed / no.14</text>
+</svg>
