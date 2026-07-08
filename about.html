@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>aseed — MAISON</title>
-  <meta name="description" content="aseed — 匿名のアトリエ。解体と再構築、白と黒の服。">
+  <meta name="description" content="aseed MAISON — ATELIER, TOKYO / EST. 2026. LINES 0–9.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='22' font-family='Helvetica' font-size='18' fill='%23fff' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/about.css">
@@ -19,9 +19,9 @@
     <a class="brand-mark" href="index.html">aseed</a>
     <nav class="site-nav" id="siteNav" aria-label="メイン">
       <ul>
-        <li><a href="index.html">HOME</a></li>
-        <li><a href="about.html">MAISON</a></li>
-        <li><a href="store.html">ONLINE STORE</a></li>
+        <li><a href="index.html" data-scramble>HOME</a></li>
+        <li><a href="about.html" data-scramble>MAISON</a></li>
+        <li><a href="store.html" data-scramble>ONLINE STORE</a></li>
       </ul>
     </nav>
     <div class="header-tools">
@@ -32,77 +32,83 @@
   </div>
 </header>
 
-<main class="about-main">
+<main class="maison-main">
 
-  <!-- HERO -->
-  <section class="about-hero">
-    <div class="about-container">
-      <p class="about-eyebrow">ABOUT THE MAISON</p>
-      <h1 class="about-title">MAISON</h1>
-      <p class="about-hero-line">匿名のアトリエから、白と黒の服だけを。</p>
-    </div>
-  </section>
-
-  <!-- PHILOSOPHY -->
-  <section class="about-philosophy">
-    <div class="about-container">
-      <h2 class="about-label">PHILOSOPHY</h2>
-      <div class="philosophy-body">
-        <p>aseedは、完成された服をいちど解くことから始まります。縫い目を開き、裏地を表へ返し、当たり前とされてきたパターンを疑う。解体の底にわずかに残る核 — 種子 — だけを拾いあげ、あたらしい手つきで縫い直す。それが私たちの再構築です。</p>
-        <p>私たちは名乗りません。ラベルには四つの糸留めだけが残り、署名はどこにもない。色は白と黒。最小の語彙で服を語るとき、浮かびあがるのは着る人の輪郭だけです。服は背景になり、人が前景になる。</p>
+  <!-- HERO — giant kinetic MAISON, mono annotation, whitespace for ink -->
+  <section class="maison-hero">
+    <div class="maison-container">
+      <p class="maison-annot reveal">aseed — ATELIER, TOKYO&ensp;/&ensp;EST. 2026</p>
+      <h1 class="maison-title reveal" data-kinetic>MAISON</h1>
+      <div class="maison-digits reveal" aria-hidden="true">
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
       </div>
     </div>
+    <p class="maison-scrollcue" aria-hidden="true">SCROLL</p>
   </section>
 
-  <!-- QUOTE BAND (full-width, inverted) -->
-  <section class="about-quote" aria-label="引用">
-    <div class="about-container">
-      <div class="stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-      <blockquote>
-        <p>白は始まりの色。黒は終わりの色。<br>私たちはその間を縫う。</p>
-      </blockquote>
+  <!-- slow outlined marquee band -->
+  <div class="maison-marquee" aria-hidden="true">
+    <div class="maison-marquee__track">
+      <span>aseed aseed aseed aseed&#8195;</span><span>aseed aseed aseed aseed&#8195;</span>
     </div>
-  </section>
+  </div>
 
-  <!-- LINES 0–9 -->
-  <section class="about-lines">
-    <div class="about-container">
-      <h2 class="about-label">LINES 0–9</h2>
-      <p class="lines-note">aseedのコレクションは、番号を持つ10のラインで構成されます。</p>
-      <table class="lines-table">
-        <caption class="visually-hidden">aseedのライン一覧</caption>
+  <!-- LINES 0–9 — hairline specimen index -->
+  <section class="maison-lines" aria-labelledby="linesHead">
+    <div class="maison-container">
+      <header class="maison-sechead reveal">
+        <span id="linesHead">LINES</span>
+        <span aria-hidden="true">INDEX 0 — 9</span>
+      </header>
+      <table class="lines-table reveal">
+        <caption class="visually-hidden">aseed line index 0–9</caption>
         <tbody>
-          <tr><td class="line-no">0</td><td class="line-name">ARTISANAL<span class="line-ja">再構築</span></td></tr>
-          <tr><td class="line-no">1</td><td class="line-name">WOMEN</td></tr>
-          <tr><td class="line-no">2</td><td class="line-name">MEN</td></tr>
-          <tr><td class="line-no">3</td><td class="line-name">SHIRTING</td></tr>
-          <tr><td class="line-no">4</td><td class="line-name">KNIT</td></tr>
-          <tr><td class="line-no">5</td><td class="line-name">DENIM &amp; WORK</td></tr>
-          <tr><td class="line-no">6</td><td class="line-name">OBJECTS<span class="line-ja">バッグ・小物</span></td></tr>
-          <tr><td class="line-no">7</td><td class="line-name">FOOTWEAR</td></tr>
-          <tr><td class="line-no">8</td><td class="line-name">SILVER &amp; ACCESSORY</td></tr>
-          <tr><td class="line-no">9</td><td class="line-name">EDITIONS<span class="line-ja">限定</span></td></tr>
+          <tr><td class="line-no">0</td><td class="line-name"><span data-scramble>ARTISANAL</span></td></tr>
+          <tr><td class="line-no">1</td><td class="line-name"><span data-scramble>WOMEN</span></td></tr>
+          <tr><td class="line-no">2</td><td class="line-name"><span data-scramble>MEN</span></td></tr>
+          <tr><td class="line-no">3</td><td class="line-name"><span data-scramble>SHIRTING</span></td></tr>
+          <tr><td class="line-no">4</td><td class="line-name"><span data-scramble>KNIT</span></td></tr>
+          <tr><td class="line-no">5</td><td class="line-name"><span data-scramble>DENIM &amp; WORK</span></td></tr>
+          <tr><td class="line-no">6</td><td class="line-name"><span data-scramble>OBJECTS</span></td></tr>
+          <tr><td class="line-no">7</td><td class="line-name"><span data-scramble>FOOTWEAR</span></td></tr>
+          <tr><td class="line-no">8</td><td class="line-name"><span data-scramble>SILVER &amp; ACCESSORY</span></td></tr>
+          <tr><td class="line-no">9</td><td class="line-name"><span data-scramble>EDITIONS</span></td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- ATELIER -->
-  <section class="about-atelier">
-    <div class="about-container">
-      <h2 class="about-label">ATELIER</h2>
-      <address class="atelier-address">
-        <p>
-          〒150-0001<br>
-          東京都渋谷区神宮前 4-21-8<br>
-          メゾン・ブランシュ 3F
-        </p>
-        <p class="atelier-contact">
-          <a href="mailto:maison@aseed.jp">maison@aseed.jp</a>
-        </p>
-      </address>
-      <p class="atelier-note">アトリエは非公開です。ご連絡はメールにてお願いいたします。</p>
-      <p class="atelier-cta"><a class="about-store-link" href="store.html">ENTER STORE →</a></p>
+  <!-- ATELIER — specimen label + oversized outline numeral -->
+  <section class="maison-atelier" aria-labelledby="atelierHead">
+    <div class="maison-container">
+      <header class="maison-sechead reveal">
+        <span id="atelierHead">ATELIER</span>
+        <span aria-hidden="true">TOKYO — JP</span>
+      </header>
+
+      <div class="atelier-grid">
+        <p class="atelier-year outline-text reveal" aria-hidden="true">2026</p>
+
+        <address class="atelier-label reveal">
+          <div class="stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <dl>
+            <dt>Maison</dt>
+            <dd>aseed</dd>
+            <dt>Address</dt>
+            <dd>〒150-0001<br>東京都渋谷区神宮前 4-21-8<br>メゾン・ブランシュ 3F</dd>
+            <dt>Contact</dt>
+            <dd><a href="mailto:maison@aseed.jp" data-scramble>maison@aseed.jp</a></dd>
+            <dt>Origin</dt>
+            <dd>ATELIER, TOKYO — EST. 2026</dd>
+          </dl>
+          <span class="atelier-barcode" aria-hidden="true"></span>
+          <span class="atelier-code" aria-hidden="true">AS26 — MAISON — TOKYO</span>
+        </address>
+      </div>
+
+      <p class="atelier-cta reveal">
+        <a class="atelier-store" href="store.html"><span data-scramble>ENTER STORE</span>&ensp;<span class="arr" aria-hidden="true">→</span></a>
+      </p>
     </div>
   </section>
 
@@ -113,10 +119,10 @@
     <div class="stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <p class="footer-brand">aseed</p>
     <nav class="footer-nav" aria-label="フッター">
-      <a href="index.html">HOME</a>
-      <a href="about.html">MAISON</a>
-      <a href="store.html">ONLINE STORE</a>
-      <a href="cart.html">CART</a>
+      <a href="index.html" data-scramble>HOME</a>
+      <a href="about.html" data-scramble>MAISON</a>
+      <a href="store.html" data-scramble>ONLINE STORE</a>
+      <a href="cart.html" data-scramble>CART</a>
     </nav>
     <p class="footer-note">&copy; 2026 aseed. This is a concept store — orders are not fulfilled.</p>
   </div>
@@ -124,5 +130,21 @@
 
 <script src="js/products.js" defer></script>
 <script src="js/cart.js" defer></script>
+<script src="js/ink.js" defer></script>
+<script src="js/specimen.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (!window.AseedFX) return;
+  // scramble the line name when the pointer enters anywhere on the row
+  var rows = document.querySelectorAll('.lines-table tbody tr');
+  for (var i = 0; i < rows.length; i++) {
+    (function (row) {
+      var name = row.querySelector('[data-scramble]');
+      if (!name) return;
+      row.addEventListener('mouseenter', function () { window.AseedFX.scramble(name); });
+    })(rows[i]);
+  }
+});
+</script>
 </body>
 </html>
