@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="css/cart.css">
   <script src="js/products.js" defer></script>
   <script src="js/cart.js" defer></script>
+  <script src="js/ink.js" defer></script>
+  <script src="js/specimen.js" defer></script>
   <script src="js/cart-page.js" defer></script>
 </head>
 <body>
@@ -21,9 +23,9 @@
     <a class="brand-mark" href="index.html">aseed</a>
     <nav class="site-nav" id="siteNav" aria-label="メイン">
       <ul>
-        <li><a href="index.html">HOME</a></li>
-        <li><a href="about.html">MAISON</a></li>
-        <li><a href="store.html">ONLINE STORE</a></li>
+        <li><a href="index.html" data-scramble>HOME</a></li>
+        <li><a href="about.html" data-scramble>MAISON</a></li>
+        <li><a href="store.html" data-scramble>ONLINE STORE</a></li>
       </ul>
     </nav>
     <div class="header-tools">
@@ -36,8 +38,11 @@
 
 <main class="cart-main">
   <div class="cart-head">
-    <h1 class="cart-title">CART</h1>
-    <p class="cart-meta" id="cartMeta" aria-live="polite"></p>
+    <p class="cart-doc" aria-hidden="true">DOC. ASD-CART — ORDER MANIFEST / 出荷明細</p>
+    <div class="cart-head__row">
+      <h1 class="cart-title">CART</h1>
+      <p class="cart-meta" id="cartMeta" aria-live="polite"></p>
+    </div>
   </div>
   <div id="cartContent" class="cart-content"></div>
 </main>
@@ -47,10 +52,10 @@
     <div class="stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <p class="footer-brand">aseed</p>
     <nav class="footer-nav" aria-label="フッター">
-      <a href="index.html">HOME</a>
-      <a href="about.html">MAISON</a>
-      <a href="store.html">ONLINE STORE</a>
-      <a href="cart.html">CART</a>
+      <a href="index.html" data-scramble>HOME</a>
+      <a href="about.html" data-scramble>MAISON</a>
+      <a href="store.html" data-scramble>ONLINE STORE</a>
+      <a href="cart.html" data-scramble>CART</a>
     </nav>
     <p class="footer-note">&copy; 2026 aseed. This is a concept store &mdash; orders are not fulfilled.</p>
   </div>
@@ -59,9 +64,12 @@
 <div class="checkout-modal" id="checkoutModal" hidden>
   <div class="checkout-modal__backdrop" id="checkoutModalBackdrop"></div>
   <div class="checkout-modal__panel" role="dialog" aria-modal="true" aria-labelledby="checkoutModalTitle">
+    <p class="checkout-modal__spec" aria-hidden="true">SPECIMEN LABEL — RECEIPT / A/W 2026</p>
     <div class="stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <h2 class="checkout-modal__title" id="checkoutModalTitle">THANK YOU</h2>
     <p class="checkout-modal__text">これはコンセプトストアのデモです。実際の注文は行われません。</p>
+    <div class="checkout-modal__bcode" aria-hidden="true"></div>
+    <p class="checkout-modal__bnum" aria-hidden="true">ASD-CART — ASEED, TOKYO</p>
     <button type="button" class="checkout-modal__close" id="checkoutModalClose">閉じる</button>
   </div>
 </div>
