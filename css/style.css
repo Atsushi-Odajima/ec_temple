@@ -663,24 +663,29 @@ body.nav-open .menu-toggle span:nth-child(2) {
 }
 
 /* ----------------------------------------------------------------------------
-   9. Four-stitch motif
+   9. aseed emblem — deconstructed swirl (broken rim, one inner dot removed)
    ------------------------------------------------------------------------- */
 
-.stitches {
-  display: grid;
-  grid-template-columns: repeat(2, 1px);
-  grid-template-rows: repeat(2, 10px);
-  gap: 6px;
-  justify-content: center;
-  width: max-content;
-  margin-inline: auto;
+:root {
+  --mark: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M43.5%2C28%20A20%2C20%200%200%201%2020%2C43.6%22%2F%3E%3Cpath%20d%3D%22M9.5%2C36%20A20%2C20%200%200%201%208.3%2C15%22%2F%3E%3Cpath%20d%3D%22M19%2C4.6%20A20%2C20%200%200%201%2043%2C19%22%2F%3E%3Cpath%20d%3D%22M24%2C24%20C30%2C20%2033%2C14%2030%2C8.5%22%2F%3E%3Cpath%20d%3D%22M24%2C24%20C30%2C20%2033%2C14%2030%2C8.5%22%20transform%3D%22rotate(120%2024%2024)%22%2F%3E%3Cpath%20d%3D%22M24%2C24%20C30%2C20%2033%2C14%2030%2C8.5%22%20transform%3D%22rotate(240%2024%2024)%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22%23000%22%3E%3Ccircle%20cx%3D%2231%22%20cy%3D%2227%22%20r%3D%222.6%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2227%22%20r%3D%222.6%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 }
 
-.stitches i {
+.stitches,
+.home-card__stitches,
+.p-stitch4 {
   display: block;
-  width: 1px;
-  height: 10px;
+  width: 26px;
+  height: 26px;
+  margin-inline: auto;
   background: currentColor;
+  -webkit-mask: var(--mark) center / contain no-repeat;
+  mask: var(--mark) center / contain no-repeat;
+}
+
+.stitches i,
+.home-card__stitches i,
+.p-stitch4 i {
+  display: none;
 }
 
 /* ----------------------------------------------------------------------------

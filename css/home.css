@@ -242,15 +242,10 @@
 }
 
 .home-card__stitches {
-  display: inline-grid;
-  grid-template-columns: repeat(4, 1px);
-  gap: 7px;
-}
-
-.home-card__stitches i {
-  width: 1px;
-  height: 11px;
-  background: var(--paper);
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  color: var(--paper);
 }
 
 .home-card__view {
