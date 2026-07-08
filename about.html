@@ -34,11 +34,22 @@
 
 <main class="maison-main">
 
-  <!-- HERO — giant kinetic MAISON, mono annotation, whitespace for ink -->
+  <!-- HERO — quiet MAISON + multilingual lexicon, whitespace for ink -->
   <section class="maison-hero">
+    <span class="lex-float lex-float--tl" aria-hidden="true">CLOTH&ensp;/&ensp;TOILE</span>
+    <span class="lex-float lex-float--br" aria-hidden="true">WARDROBE&ensp;/&ensp;GARDE-ROBE</span>
     <div class="maison-container">
       <p class="maison-annot reveal">aseed — ATELIER, TOKYO&ensp;/&ensp;EST. 2026</p>
-      <h1 class="maison-title reveal" data-kinetic>MAISON</h1>
+      <div class="maison-hero-grid reveal">
+        <h1 class="maison-title" data-kinetic>MAISON</h1>
+        <dl class="maison-lexicon" aria-label="maison — 各言語">
+          <div><dt>FR</dt><dd data-scramble>MAISON</dd></div>
+          <div><dt>ES</dt><dd data-scramble>CASA</dd></div>
+          <div><dt>NL</dt><dd data-scramble>HUIS</dd></div>
+          <div><dt>DE</dt><dd data-scramble>HAUS</dd></div>
+          <div><dt>IT</dt><dd data-scramble>CASA DI MODA</dd></div>
+        </dl>
+      </div>
       <div class="maison-digits reveal" aria-hidden="true">
         <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
       </div>
@@ -49,12 +60,13 @@
   <!-- slow outlined marquee band -->
   <div class="maison-marquee" aria-hidden="true">
     <div class="maison-marquee__track">
-      <span>aseed aseed aseed aseed&#8195;</span><span>aseed aseed aseed aseed&#8195;</span>
+      <span>aseed cloth aseed wardrobe aseed toile&#8195;</span><span>aseed cloth aseed wardrobe aseed toile&#8195;</span>
     </div>
   </div>
 
   <!-- LINES 0–9 — hairline specimen index -->
   <section class="maison-lines" aria-labelledby="linesHead">
+    <span class="lex-float lex-float--lines" aria-hidden="true">GARMENT&ensp;/&ensp;TELA&ensp;/&ensp;DOEK</span>
     <div class="maison-container">
       <header class="maison-sechead reveal">
         <span id="linesHead">LINES</span>
@@ -80,6 +92,7 @@
 
   <!-- ATELIER — specimen label + oversized outline numeral -->
   <section class="maison-atelier" aria-labelledby="atelierHead">
+    <span class="lex-float lex-float--atelier" aria-hidden="true">SEAM&ensp;/&ensp;STITCH&ensp;/&ensp;PATTERN</span>
     <div class="maison-container">
       <header class="maison-sechead reveal">
         <span id="atelierHead">ATELIER</span>
