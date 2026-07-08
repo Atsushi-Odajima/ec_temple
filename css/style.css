@@ -842,19 +842,21 @@ main {
   margin: 0 0 10px;
 }
 
-/* odometer digits */
+/* odometer digits — row height must be exactly 1em:
+   specimen.js rolls the reel in -Nem steps */
 .odo {
   display: inline-flex;
   overflow: hidden;
-  height: 1.25em;
-  line-height: 1.25em;
-  vertical-align: bottom;
+  height: 1em;
+  line-height: 1;
+  vertical-align: baseline;
 }
 
 .odo__static,
 .odo__col {
   display: inline-block;
-  height: 1.25em;
+  height: 1em;
+  line-height: 1;
 }
 
 .odo__reel {
@@ -865,7 +867,8 @@ main {
 
 .odo__reel span {
   display: block;
-  height: 1.25em;
+  height: 1em;
+  line-height: 1;
 }
 
 /* reveal (shared; html.has-reveal gate added by specimen.js) */
