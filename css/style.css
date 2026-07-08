@@ -732,3 +732,162 @@ body.nav-open .menu-toggle span:nth-child(2) {
   letter-spacing: .08em;
   color: var(--ink-mute);
 }
+
+/* ==========================================================================
+   SPECIMEN — shared components for the kinetic type-specimen redesign
+   (used with js/ink.js + js/specimen.js)
+   ========================================================================== */
+
+/* content sits above the fixed ink canvas (z-index:-1) */
+.site-header,
+.site-footer,
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* kinetic letters */
+.k-letter {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* outlined display type */
+.outline-text {
+  -webkit-text-stroke: 1px var(--ink);
+  color: transparent;
+}
+
+/* stitch scroll-progress rail */
+.fx-stitch {
+  position: fixed;
+  top: 0;
+  right: 22px;
+  bottom: 0;
+  width: 1px;
+  z-index: 60;
+  pointer-events: none;
+  background: repeating-linear-gradient(180deg, var(--line) 0 6px, transparent 6px 13px);
+}
+
+.fx-stitch__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 0;
+  background: repeating-linear-gradient(180deg, var(--ink) 0 6px, transparent 6px 13px);
+}
+
+.fx-stitch__needle {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* flip card (front = product, back = spec sheet) */
+.spec-card {
+  perspective: 1200px;
+}
+
+.spec-card__inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform .65s var(--ease);
+}
+
+.spec-card:hover .spec-card__inner,
+.spec-card:focus-within .spec-card__inner,
+.spec-card.is-flipped .spec-card__inner {
+  transform: rotateY(180deg);
+}
+
+.spec-card__face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.spec-card__back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+  line-height: 1.9;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px;
+}
+
+.spec-card__back dl {
+  margin: 0;
+}
+
+.spec-card__back dt {
+  color: var(--ink-mute);
+  font-size: 9px;
+  letter-spacing: .2em;
+}
+
+.spec-card__back dd {
+  margin: 0 0 10px;
+}
+
+/* odometer digits */
+.odo {
+  display: inline-flex;
+  overflow: hidden;
+  height: 1.25em;
+  line-height: 1.25em;
+  vertical-align: bottom;
+}
+
+.odo__static,
+.odo__col {
+  display: inline-block;
+  height: 1.25em;
+}
+
+.odo__reel {
+  display: block;
+  transition: transform .9s var(--ease);
+  will-change: transform;
+}
+
+.odo__reel span {
+  display: block;
+  height: 1.25em;
+}
+
+/* reveal (shared; html.has-reveal gate added by specimen.js) */
+.has-reveal .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+}
+
+.has-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spec-card__inner,
+  .odo__reel,
+  .has-reveal .reveal {
+    transition: none;
+  }
+  .has-reveal .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
