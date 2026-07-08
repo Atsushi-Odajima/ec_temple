@@ -1,9 +1,11 @@
 /* ============================================================
-   aseed — store.js (Agent STORE)
+   aseed — store.js (Agent STORE) · SPECIMEN redesign
    Client-side listing: category filter / search / sort /
-   favorites-only, all re-rendered in place.
+   favorites-only, re-rendered in place as .spec-card 3D flip
+   cards (FRONT artwork + name/price, BACK mono spec sheet).
    Depends on: js/products.js (ASEED_PRODUCTS, ASEED_CATEGORIES,
-   aseedYen) and js/cart.js (AseedFav). Everything guarded.
+   aseedYen), js/cart.js (AseedFav) and js/specimen.js
+   (AseedFX.bindScramble / odometer). Everything guarded.
    ============================================================ */
 (function () {
   "use strict";
@@ -26,6 +28,20 @@
       ? window.aseedYen
       : function (n) { return "¥" + Number(n).toLocaleString("ja-JP"); };
 
+    /* SPECIMEN shared category → material map (see spec) */
+    var MATERIALS = {
+      outer: "WOOL 100%",
+      jacket: "WOOL 80% · NYLON 20%",
+      knit: "WOOL 100%",
+      shirt: "COTTON 100%",
+      cutsewn: "COTTON 100%",
+      pants: "WOOL 60% · POLYESTER 40%",
+      denim: "COTTON 100%",
+      bag: "COW LEATHER",
+      shoes: "CALF LEATHER",
+      accessory: "SILVER 925"
+    };
+
     var state = {
       cat: "all",
       query: "",
@@ -42,7 +58,22 @@
       }
     } catch (e) { /* very old browsers: keep default */ }
 
-    /* ---------- category chips ---------- */
+    /* ---------- helpers ---------- */
+    function pad2(n) {
+      n = Number(n) || 0;
+      return (n < 10 ? "0" : "") + n;
+    }
+
+    function fx() {
+      return window.AseedFX || null;
+    }
+
+    function bindScrambleIn(root) {
+      var f = fx();
+      if (f && typeof f.bindScramble === "function") f.bindScramble(root);
+    }
+
+    /* ---------- category chips (tiny mono tags) ---------- */
     function renderCats() {
       if (!catList) return;
       catList.innerHTML = "";
@@ -52,6 +83,7 @@
         btn.type = "button";
         btn.className = "cat-chip" + (state.cat === c.key ? " is-active" : "");
         btn.textContent = c.label;
+        btn.setAttribute("data-scramble", "");
         btn.setAttribute("aria-pressed", state.cat === c.key ? "true" : "false");
         btn.addEventListener("click", function () {
           state.cat = c.key;
@@ -62,6 +94,7 @@
         li.appendChild(btn);
         catList.appendChild(li);
       });
+      bindScrambleIn(catList);
     }
 
     function syncUrl() {
@@ -109,14 +142,100 @@
       return items;
     }
 
+    /* ---------- spec sheet (back face) ---------- */
+    function buildBack(p) {
+      var back = document.createElement("div");
+      /* __face gives it backface-visibility:hidden — required so the
+         back sheet is invisible (not mirrored) until the card flips */
+      back.className = "spec-card__face spec-card__back";
+      /* purely visual duplicate of front data — hide from AT */
+      back.setAttribute("aria-hidden", "true");
+
+      var top = document.createElement("div");
+
+      var no = document.createElement("p");
+      no.className = "p-back-no";
+      var noL = document.createElement("span");
+      noL.textContent = "SPECIMEN";
+      var noR = document.createElement("span");
+      noR.textContent = "NO." + pad2(p.no);
+      no.appendChild(noL);
+      no.appendChild(noR);
+      top.appendChild(no);
+
+      var dl = document.createElement("dl");
+      var rows = [
+        ["品番", String(p.id || "").toUpperCase()],
+        ["LINE", "LINE " + (p.line != null ? p.line : 0)],
+        ["MATERIAL", MATERIALS[p.category] || "—"],
+        ["ORIGIN", "ATELIER, TOKYO"]
+      ];
+      rows.forEach(function (row) {
+        var dt = document.createElement("dt");
+        dt.textContent = row[0];
+        var dd = document.createElement("dd");
+        dd.textContent = row[1];
+        dl.appendChild(dt);
+        dl.appendChild(dd);
+      });
+      top.appendChild(dl);
+
+      var bottom = document.createElement("div");
+      bottom.className = "p-back-bottom";
+
+      var stitches = document.createElement("span");
+      stitches.className = "p-stitch4";
+      for (var i = 0; i < 4; i++) stitches.appendChild(document.createElement("i"));
+
+      var view = document.createElement("span");
+      view.className = "p-view";
+      var viewWord = document.createElement("span");
+      viewWord.textContent = "VIEW";
+      viewWord.setAttribute("data-scramble", "");
+      var viewArr = document.createElement("span");
+      viewArr.className = "p-view-arr";
+      viewArr.textContent = "→";
+      view.appendChild(viewWord);
+      view.appendChild(viewArr);
+
+      bottom.appendChild(stitches);
+      bottom.appendChild(view);
+
+      back.appendChild(top);
+      back.appendChild(bottom);
+      return back;
+    }
+
     /* ---------- card ---------- */
-    function buildCard(p) {
+    function buildCard(p, index) {
       var li = document.createElement("li");
-      li.className = "p-card";
+      li.className = "p-card spec-card";
+      li.style.animationDelay = Math.min(index * 28, 280) + "ms";
 
       var a = document.createElement("a");
       a.className = "p-card-link";
       a.href = "product.html?id=" + encodeURIComponent(p.id);
+
+      /* mono annotation — outside the flipping inner */
+      var meta = document.createElement("span");
+      meta.className = "p-card-meta";
+      meta.setAttribute("aria-hidden", "true");
+      var metaNo = document.createElement("span");
+      metaNo.textContent = "NO." + pad2(p.no);
+      metaNo.setAttribute("data-scramble", "");
+      var metaId = document.createElement("span");
+      metaId.textContent = String(p.id || "").toUpperCase();
+      metaId.setAttribute("data-scramble", "");
+      meta.appendChild(metaNo);
+      meta.appendChild(metaId);
+
+      /* 3D flip inner */
+      var inner = document.createElement("div");
+      inner.className = "spec-card__inner";
+
+      /* FRONT: artwork + NEW + name + price */
+      var front = document.createElement("div");
+      front.className = "spec-card__face p-card-front";
 
       var media = document.createElement("div");
       media.className = "p-card-media";
@@ -136,6 +255,39 @@
         media.appendChild(tag);
       }
 
+      var cap = document.createElement("div");
+      cap.className = "p-card-cap";
+
+      var name = document.createElement("h2");
+      name.className = "p-card-name";
+      name.textContent = p.name;
+      if (p.nameJa) {
+        var ja = document.createElement("small");
+        ja.className = "p-card-name-ja";
+        ja.textContent = p.nameJa;
+        name.appendChild(ja);
+      }
+
+      var price = document.createElement("p");
+      price.className = "p-card-price";
+      price.textContent = yen(p.price);
+      price.setAttribute("data-pid", p.id);
+
+      cap.appendChild(name);
+      cap.appendChild(price);
+
+      front.appendChild(media);
+      front.appendChild(cap);
+
+      inner.appendChild(front);
+      inner.appendChild(buildBack(p));
+
+      a.appendChild(meta);
+      a.appendChild(inner);
+      li.appendChild(a);
+
+      /* favorite heart — SIBLING of the link, outside the flipping
+         inner: it never rotates and stays clickable at all times */
       var fav = document.createElement("button");
       fav.type = "button";
       fav.className = "p-fav" + (favHas(p.id) ? " is-active" : "");
@@ -155,31 +307,33 @@
         /* favorites-only view: removing a fav should drop the card */
         if (state.favOnly && !on) render();
       });
-      media.appendChild(fav);
+      li.appendChild(fav);
 
-      var info = document.createElement("div");
-      info.className = "p-card-info";
-
-      var brand = document.createElement("p");
-      brand.className = "p-card-brand";
-      brand.textContent = "aseed";
-
-      var name = document.createElement("h2");
-      name.className = "p-card-name";
-      name.textContent = p.name;
-
-      var price = document.createElement("p");
-      price.className = "p-card-price";
-      price.textContent = yen(p.price);
-
-      info.appendChild(brand);
-      info.appendChild(name);
-      info.appendChild(price);
-
-      a.appendChild(media);
-      a.appendChild(info);
-      li.appendChild(a);
       return li;
+    }
+
+    /* ---------- odometer prices (roll once per product, on entry) ---- */
+    var odoSeen = {};
+    var priceIO = null;
+
+    function observePrices() {
+      var f = fx();
+      if (!f || typeof f.odometer !== "function") return;
+      if (!("IntersectionObserver" in window)) return;
+      if (priceIO) priceIO.disconnect();
+      priceIO = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (!entries[i].isIntersecting) continue;
+          var el = entries[i].target;
+          odoSeen[el.getAttribute("data-pid")] = true;
+          f.odometer(el);
+          priceIO.unobserve(el);
+        }
+      }, { threshold: 0.35 });
+      var prices = grid.querySelectorAll(".p-card-price[data-pid]");
+      for (var i = 0; i < prices.length; i++) {
+        if (!odoSeen[prices[i].getAttribute("data-pid")]) priceIO.observe(prices[i]);
+      }
     }
 
     /* ---------- render ---------- */
@@ -187,12 +341,16 @@
       var items = visibleItems();
       grid.innerHTML = "";
       var frag = document.createDocumentFragment();
-      items.forEach(function (p) { frag.appendChild(buildCard(p)); });
+      items.forEach(function (p, i) { frag.appendChild(buildCard(p, i)); });
       grid.appendChild(frag);
 
       if (countEl) countEl.textContent = String(items.length);
       if (emptyEl) emptyEl.hidden = items.length > 0;
       grid.hidden = items.length === 0;
+
+      /* wire SPECIMEN fx on freshly rendered nodes */
+      bindScrambleIn(grid);
+      observePrices();
     }
 
     /* ---------- toolbar events ---------- */

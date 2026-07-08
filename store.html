@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="css/store.css">
   <script src="js/products.js" defer></script>
   <script src="js/cart.js" defer></script>
+  <script src="js/ink.js" defer></script>
+  <script src="js/specimen.js" defer></script>
   <script src="js/store.js" defer></script>
 </head>
 <body>
@@ -21,9 +23,9 @@
     <a class="brand-mark" href="index.html">aseed</a>
     <nav class="site-nav" id="siteNav" aria-label="メイン">
       <ul>
-        <li><a href="index.html">HOME</a></li>
-        <li><a href="about.html">MAISON</a></li>
-        <li><a href="store.html">ONLINE STORE</a></li>
+        <li><a href="index.html" data-scramble>HOME</a></li>
+        <li><a href="about.html" data-scramble>MAISON</a></li>
+        <li><a href="store.html" data-scramble>ONLINE STORE</a></li>
       </ul>
     </nav>
     <div class="header-tools">
@@ -36,8 +38,12 @@
 
 <main class="store-page">
   <div class="store-head">
-    <h1 class="store-title">ONLINE STORE</h1>
-    <p class="store-count"><span id="storeCount">0</span> ITEMS</p>
+    <p class="store-eyebrow" aria-hidden="true">
+      <span>ASEED — COLLECTION 2026</span>
+      <span class="store-eyebrow-r">TYPE SPECIMEN / INDEX 01</span>
+    </p>
+    <h1 class="store-title" data-kinetic>ONLINE STORE</h1>
+    <p class="store-count"><span id="storeCount">0</span> SPECIMENS / INDEX 01</p>
   </div>
 
   <div class="store-toolbar" id="storeToolbar">
@@ -76,10 +82,10 @@
     <div class="stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <p class="footer-brand">aseed</p>
     <nav class="footer-nav" aria-label="フッター">
-      <a href="index.html">HOME</a>
-      <a href="about.html">MAISON</a>
-      <a href="store.html">ONLINE STORE</a>
-      <a href="cart.html">CART</a>
+      <a href="index.html" data-scramble>HOME</a>
+      <a href="about.html" data-scramble>MAISON</a>
+      <a href="store.html" data-scramble>ONLINE STORE</a>
+      <a href="cart.html" data-scramble>CART</a>
     </nav>
     <p class="footer-note">&copy; 2026 aseed. This is a concept store — orders are not fulfilled.</p>
   </div>
