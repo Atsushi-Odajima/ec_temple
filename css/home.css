@@ -532,3 +532,23 @@
     animation: none;
   }
 }
+
+/* faint clothing-lexicon words scattered in the hero margins */
+.lex-float {
+  position: absolute;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  color: var(--ink-mute);
+  opacity: 0.6;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.lex-float--tl { top: 40px; left: 24px; }
+.lex-float--br { bottom: 44px; right: 48px; }
+
+@media (max-width: 767px) {
+  .lex-float { display: none; }
+}
