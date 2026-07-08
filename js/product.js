@@ -1,9 +1,9 @@
 /* ==========================================================================
-   aseed — product.js (Agent PRODUCT)
+   aseed — product.js (Agent PRODUCT — SPECIMEN redesign)
    Product detail page. Depends on js/products.js (ASEED_PRODUCTS,
-   ASEED_CATEGORIES, aseedYen) and js/cart.js (AseedCart, AseedFav).
-   All access is guarded — the page degrades to ITEM NOT FOUND if data
-   is unavailable.
+   ASEED_CATEGORIES, aseedYen), js/cart.js (AseedCart, AseedFav) and
+   js/specimen.js (AseedFX — optional, all calls guarded).
+   The page degrades to ITEM NOT FOUND if data is unavailable.
    ========================================================================== */
 
 (function () {
@@ -22,11 +22,35 @@
     9: "EDITIONS"
   };
 
+  /* shared SPECIMEN category → material map */
+  var MATERIALS = {
+    outer: "WOOL 100%",
+    jacket: "WOOL 80% · NYLON 20%",
+    knit: "WOOL 100%",
+    shirt: "COTTON 100%",
+    cutsewn: "COTTON 100%",
+    pants: "WOOL 60% · POLYESTER 40%",
+    denim: "COTTON 100%",
+    bag: "COW LEATHER",
+    shoes: "CALF LEATHER",
+    accessory: "SILVER 925"
+  };
+
   function $(id) { return document.getElementById(id); }
 
   function yen(n) {
     if (typeof window.aseedYen === "function") return window.aseedYen(n);
     return "¥" + Number(n).toLocaleString("ja-JP");
+  }
+
+  function pad2(n) {
+    var v = Math.floor(Number(n));
+    if (!isFinite(v) || v < 0) v = 0;
+    return (v < 10 ? "0" : "") + v;
+  }
+
+  function fx() {
+    return window.AseedFX || null;
   }
 
   function categoryLabel(key) {
@@ -37,6 +61,27 @@
       }
     }
     return String(key || "").toUpperCase();
+  }
+
+  function lineText(line) {
+    var nm = LINE_NAMES[line];
+    return String(line) + (nm ? " — " + nm : "");
+  }
+
+  function materialText(category) {
+    return MATERIALS[category] || "—";
+  }
+
+  /* set text on a [data-scramble] element without fighting a running fx:
+     stop any scramble timer and refresh its cached original text */
+  function setScrambleText(el, text) {
+    if (!el) return;
+    if (el._fxTimer) {
+      clearInterval(el._fxTimer);
+      el._fxTimer = null;
+    }
+    el.textContent = text;
+    el.setAttribute("data-fx-orig", text);
   }
 
   function showNotFound() {
@@ -85,6 +130,19 @@
     img.alt = product.name + " — " + (product.nameJa || "");
   }
 
+  /* specimen plate annotations */
+  var plateCode = $("plateCode");
+  if (plateCode) plateCode.textContent = String(product.id || "").toUpperCase();
+
+  var plateCaption = $("plateCaption");
+  if (plateCaption) plateCaption.textContent = "aseed / no." + pad2(product.no);
+
+  var plateCat = $("plateCat");
+  if (plateCat) plateCat.textContent = categoryLabel(product.category);
+
+  var plateNum = $("plateNum");
+  if (plateNum) plateNum.textContent = pad2(product.no);
+
   var crumb = $("breadcrumbCategory");
   if (crumb) {
     crumb.textContent = categoryLabel(product.category);
@@ -97,19 +155,26 @@
   var nameJaEl = $("productNameJa");
   if (nameJaEl) nameJaEl.textContent = product.nameJa || "";
 
+  /* mono spec strip: NO. / LINE / MATERIAL */
+  var specNoEl = $("specNo");
+  if (specNoEl) specNoEl.textContent = pad2(product.no);
+
   var lineEl = $("productLine");
-  if (lineEl) {
-    var lineName = LINE_NAMES[product.line];
-    lineEl.textContent = "LINE " + product.line + (lineName ? " — " + lineName : "");
-  }
+  if (lineEl) lineEl.textContent = lineText(product.line);
+
+  var materialEl = $("specMaterial");
+  if (materialEl) materialEl.textContent = materialText(product.category);
 
   var priceEl = $("productPrice");
-  if (priceEl) priceEl.textContent = yen(product.price);
+  if (priceEl) {
+    priceEl.textContent = yen(product.price);
+    if (fx() && typeof fx().odometer === "function") fx().odometer(priceEl);
+  }
 
   var descEl = $("productDesc");
   if (descEl) descEl.textContent = product.desc || "";
 
-  /* ---- option selectors ------------------------------------------------ */
+  /* ---- option selectors — square specimen tags -------------------------- */
 
   function renderOptions(containerId, values, kind) {
     var container = $(containerId);
@@ -210,12 +275,12 @@
         });
       }
       addBtn.classList.add("is-added");
-      addBtn.textContent = "ADDED ✓";
+      setScrambleText(addBtn, "ADDED ✓");
       addBtn.disabled = true;
       if (addedTimer) clearTimeout(addedTimer);
       addedTimer = setTimeout(function () {
         addBtn.classList.remove("is-added");
-        addBtn.textContent = "ADD TO CART";
+        setScrambleText(addBtn, "ADD TO CART");
         syncAddButton();
       }, 1500);
       showToast();
@@ -248,7 +313,98 @@
   }
   syncFav();
 
-  /* ---- related items ---------------------------------------------------- */
+  /* ---- related items — spec-card flip cards ------------------------------ */
+
+  function specDl(rows) {
+    var dl = document.createElement("dl");
+    rows.forEach(function (row) {
+      var dt = document.createElement("dt");
+      dt.textContent = row[0];
+      var dd = document.createElement("dd");
+      dd.textContent = row[1];
+      dl.appendChild(dt);
+      dl.appendChild(dd);
+    });
+    return dl;
+  }
+
+  function buildSpecCard(p) {
+    var href = "product.html?id=" + encodeURIComponent(p.id);
+
+    var card = document.createElement("article");
+    card.className = "spec-card related-card";
+
+    var inner = document.createElement("div");
+    inner.className = "spec-card__inner";
+
+    /* front — artwork + name + price */
+    var front = document.createElement("a");
+    front.className = "spec-card__face rc-front";
+    front.href = href;
+    front.setAttribute("aria-label", p.name + " — " + yen(p.price));
+
+    var no = document.createElement("span");
+    no.className = "rc-no";
+    no.setAttribute("aria-hidden", "true");
+    var noL = document.createElement("span");
+    noL.textContent = "NO." + pad2(p.no);
+    var noR = document.createElement("span");
+    noR.textContent = String(p.id || "").toUpperCase();
+    no.appendChild(noL);
+    no.appendChild(noR);
+    front.appendChild(no);
+
+    var fig = document.createElement("figure");
+    fig.className = "rc-figure";
+    var im = document.createElement("img");
+    im.src = p.image;
+    im.alt = p.name;
+    im.loading = "lazy";
+    im.width = 600;
+    im.height = 800;
+    fig.appendChild(im);
+    front.appendChild(fig);
+
+    var nm = document.createElement("span");
+    nm.className = "rc-name";
+    nm.textContent = p.name;
+    front.appendChild(nm);
+
+    var pr = document.createElement("span");
+    pr.className = "rc-price";
+    pr.textContent = yen(p.price);
+    front.appendChild(pr);
+
+    /* back — mono spec sheet */
+    var back = document.createElement("div");
+    back.className = "spec-card__face spec-card__back";
+    back.appendChild(specDl([
+      ["品番", String(p.id || "").toUpperCase()],
+      ["LINE", lineText(p.line)],
+      ["MATERIAL", materialText(p.category)],
+      ["ORIGIN", "ATELIER, TOKYO"]
+    ]));
+
+    var foot = document.createElement("div");
+    foot.className = "rc-back-foot";
+    var st = document.createElement("span");
+    st.className = "stitches";
+    st.setAttribute("aria-hidden", "true");
+    st.innerHTML = "<i></i><i></i><i></i><i></i>";
+    var view = document.createElement("a");
+    view.className = "rc-view";
+    view.href = href;
+    view.setAttribute("data-scramble", "");
+    view.textContent = "VIEW →";
+    foot.appendChild(st);
+    foot.appendChild(view);
+    back.appendChild(foot);
+
+    inner.appendChild(front);
+    inner.appendChild(back);
+    card.appendChild(inner);
+    return { card: card, price: pr };
+  }
 
   var related = products.filter(function (p) {
     return p && p.category === product.category && p.id !== product.id;
@@ -258,35 +414,31 @@
   var relatedGrid = $("relatedGrid");
   if (related.length && relatedSection && relatedGrid) {
     relatedSection.hidden = false;
+    var priceEls = [];
     related.forEach(function (p) {
-      var a = document.createElement("a");
-      a.className = "related-card";
-      a.href = "product.html?id=" + encodeURIComponent(p.id);
-
-      var fig = document.createElement("figure");
-      var im = document.createElement("img");
-      im.src = p.image;
-      im.alt = p.name;
-      im.loading = "lazy";
-      fig.appendChild(im);
-      a.appendChild(fig);
-
-      var brand = document.createElement("p");
-      brand.className = "rc-brand";
-      brand.textContent = "aseed";
-      a.appendChild(brand);
-
-      var nm = document.createElement("p");
-      nm.className = "rc-name";
-      nm.textContent = p.name;
-      a.appendChild(nm);
-
-      var pr = document.createElement("p");
-      pr.className = "rc-price";
-      pr.textContent = yen(p.price);
-      a.appendChild(pr);
-
-      relatedGrid.appendChild(a);
+      var built = buildSpecCard(p);
+      relatedGrid.appendChild(built.card);
+      priceEls.push(built.price);
     });
+
+    /* roll related prices when they enter the viewport */
+    if (fx() && typeof fx().odometer === "function" &&
+        "IntersectionObserver" in window) {
+      var oio = new IntersectionObserver(function (entries) {
+        for (var k = 0; k < entries.length; k++) {
+          if (entries[k].isIntersecting) {
+            fx().odometer(entries[k].target);
+            oio.unobserve(entries[k].target);
+          }
+        }
+      }, { threshold: 0.35 });
+      priceEls.forEach(function (el) { oio.observe(el); });
+    }
+  }
+
+  /* ---- bind scramble on dynamically rendered nodes ----------------------- */
+
+  if (fx() && typeof fx().bindScramble === "function") {
+    fx().bindScramble(document);
   }
 })();

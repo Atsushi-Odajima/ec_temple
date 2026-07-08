@@ -1,12 +1,19 @@
 /* ==========================================================================
-   aseed — product.css (Agent PRODUCT)
-   Page-specific styles for product.html. Uses tokens from css/style.css.
+   aseed — product.css (Agent PRODUCT — SPECIMEN redesign)
+   Product detail as a specimen plate. Page background stays transparent so
+   the fixed ink canvas (js/ink.js) shows through; only the plate/figure and
+   small accents are opaque. Tokens + SPECIMEN components come from style.css.
    ========================================================================== */
+
+:root {
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+          "Courier New", monospace;
+}
 
 .product-page {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: calc(var(--header-h) + 40px) 24px 120px;
+  padding: 48px 24px 140px;
 }
 
 @media (min-width: 1024px) {
@@ -17,39 +24,60 @@
 }
 
 /* --------------------------------------------------------------------------
-   NOT FOUND state
+   [hidden] must always win — never override it with display rules
    -------------------------------------------------------------------------- */
 
-.product-notfound[hidden] {
+.product-notfound[hidden],
+.product-detail[hidden],
+.related[hidden] {
   display: none;
 }
 
+/* --------------------------------------------------------------------------
+   NOT FOUND state
+   -------------------------------------------------------------------------- */
+
 .product-notfound {
-  min-height: 50vh;
+  min-height: 52vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 24px;
-  padding: 80px 0;
+  gap: 26px;
+  padding: 90px 0;
+}
+
+.nf-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  color: var(--ink-mute);
+}
+
+.product-notfound .stitches {
+  color: var(--ink);
+  opacity: 0.65;
 }
 
 .notfound-title {
-  font-size: clamp(20px, 4vw, 32px);
+  font-size: clamp(26px, 5vw, 44px);
   font-weight: 300;
   letter-spacing: var(--tracking-xwide);
+  text-indent: var(--tracking-xwide);
+  text-transform: uppercase;
   color: var(--ink);
 }
 
 .notfound-text {
   font-size: 13px;
-  color: var(--ink-mute);
+  color: var(--ink-soft);
 }
 
 .btn-line {
   display: inline-block;
-  padding: 14px 40px;
+  padding: 15px 44px;
   border: 1px solid var(--ink);
   color: var(--ink);
   background: transparent;
@@ -65,31 +93,70 @@
 }
 
 /* --------------------------------------------------------------------------
-   Layout: image left (sticky) / info right on >=960px
+   Layout: plate left (sticky) / info right on >=960px
    -------------------------------------------------------------------------- */
 
 .product-layout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 48px;
+  gap: 56px;
 }
 
 @media (min-width: 960px) {
   .product-layout {
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: 80px;
+    gap: clamp(48px, 6vw, 96px);
     align-items: start;
   }
   .product-media {
     position: sticky;
-    top: calc(var(--header-h) + 24px);
+    top: calc(var(--header-h) + 28px);
   }
 }
 
+/* --------------------------------------------------------------------------
+   Specimen plate (image)
+   -------------------------------------------------------------------------- */
+
+.plate {
+  position: relative;
+}
+
+.plate-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  color: var(--ink-mute);
+  padding-bottom: 12px;
+}
+
 .product-figure {
+  position: relative;
   margin: 0;
   background: var(--paper-warm);
+  border: 1px solid var(--line);
+  padding: clamp(14px, 2.6vw, 30px) clamp(14px, 2.6vw, 30px) 0;
 }
+
+/* registration crosses — plate corners */
+.product-figure::before,
+.product-figure::after {
+  content: "";
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  background:
+    linear-gradient(var(--ink-mute), var(--ink-mute)) center / 1px 11px no-repeat,
+    linear-gradient(var(--ink-mute), var(--ink-mute)) center / 11px 1px no-repeat;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.product-figure::before { top: 7px; left: 7px; }
+.product-figure::after  { bottom: 7px; right: 7px; }
 
 .product-figure img {
   display: block;
@@ -99,15 +166,54 @@
   object-fit: cover;
 }
 
+.plate-cap {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--mono);
+  color: var(--ink-soft);
+  border-top: 1px solid var(--line);
+  margin-top: clamp(14px, 2.6vw, 30px);
+  padding: 13px 0 15px;
+}
+
+.plate-cap-main {
+  font-size: 10px;
+  letter-spacing: 0.26em;
+}
+
+.plate-cap-sub {
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+
+/* giant plate number — decorative outline digits over the lower right */
+.plate-num {
+  position: absolute;
+  right: 16px;
+  bottom: 44px;
+  z-index: 2;
+  font-size: clamp(64px, 9vw, 140px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  pointer-events: none;
+  user-select: none;
+}
+
 /* --------------------------------------------------------------------------
-   Info column
+   Info column (transparent — sits on the ink canvas)
    -------------------------------------------------------------------------- */
 
 .breadcrumb {
+  font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: 0.22em;
   color: var(--ink-mute);
-  margin-bottom: 32px;
+  margin-bottom: 34px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -129,62 +235,99 @@
 }
 
 .product-brand {
-  font-size: 11px;
-  letter-spacing: var(--tracking-xwide);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.42em;
   color: var(--ink-mute);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .product-name {
-  font-size: clamp(24px, 3.4vw, 36px);
+  font-size: clamp(26px, 3.4vw, 40px);
   font-weight: 300;
   letter-spacing: 0.08em;
-  line-height: 1.25;
+  line-height: 1.22;
   color: var(--ink);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   text-transform: uppercase;
 }
 
 .product-name-ja {
   font-size: 13px;
+  letter-spacing: 0.1em;
   color: var(--ink-soft);
-  margin-bottom: 16px;
-}
-
-.product-line {
-  display: inline-block;
-  font-size: 10px;
-  letter-spacing: var(--tracking-wide);
-  color: var(--ink-soft);
-  border: 1px solid var(--line);
-  padding: 5px 12px;
-  margin-bottom: 24px;
-}
-
-.product-price {
-  font-size: 20px;
-  font-weight: 300;
-  color: var(--ink);
-  margin-bottom: 40px;
-}
-
-.price-note {
-  font-size: 11px;
-  color: var(--ink-mute);
-  margin-left: 8px;
-}
-
-/* --------------------------------------------------------------------------
-   Selectors (color / size / qty)
-   -------------------------------------------------------------------------- */
-
-.select-group {
   margin-bottom: 28px;
 }
 
-.select-label {
+/* mono spec strip — NO. / LINE / MATERIAL */
+.spec-strip {
+  margin: 0 0 30px;
+  border-top: 1px solid var(--line);
+}
+
+.spec-row {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 16px;
+  align-items: baseline;
+  padding: 9px 2px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono);
+}
+
+.spec-row dt {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--ink-mute);
+}
+
+.spec-row dd {
+  margin: 0;
   font-size: 11px;
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: 0.14em;
+  color: var(--ink);
+}
+
+/* odometer geometry fix (page-level): AseedFX.odometer translates reels by
+   -N em, so every row and the window must be exactly 1em tall — the shared
+   1.25em row height leaves digits settled between rows. */
+.product-page .odo,
+.product-page .odo__static,
+.product-page .odo__col,
+.product-page .odo__reel span {
+  height: 1em;
+  line-height: 1;
+}
+
+.product-price {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  margin-bottom: 44px;
+}
+
+.price-note {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  margin-left: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   Selectors — square specimen tags
+   -------------------------------------------------------------------------- */
+
+.select-group {
+  margin-bottom: 30px;
+}
+
+.select-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
   color: var(--ink);
   margin-bottom: 12px;
 }
@@ -192,6 +335,7 @@
 .select-value {
   color: var(--ink-mute);
   margin-left: 10px;
+  letter-spacing: 0.18em;
 }
 
 .option-row {
@@ -201,21 +345,35 @@
 }
 
 .option-btn {
-  min-width: 56px;
-  padding: 11px 16px;
+  position: relative;
+  min-width: 52px;
+  height: 52px;
+  padding: 0 15px;
   border: 1px solid var(--line);
   background: transparent;
   color: var(--ink-soft);
-  font-family: var(--font-sans);
+  font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: 0.16em;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 9px;
   transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease),
               color 0.3s var(--ease);
+}
+
+/* tag pin-hole — top left, like a specimen tag */
+.option-btn::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 3px;
+  height: 3px;
+  border: 1px solid currentColor;
+  opacity: 0.55;
 }
 
 .option-btn:hover {
@@ -231,8 +389,8 @@
 
 .swatch {
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   border: 1px solid var(--line);
   flex: none;
 }
@@ -255,8 +413,8 @@
 }
 
 .qty-btn {
-  width: 44px;
-  height: 44px;
+  width: 50px;
+  height: 50px;
   border: 0;
   background: transparent;
   color: var(--ink);
@@ -279,10 +437,11 @@
 }
 
 .qty-value {
-  width: 52px;
+  width: 54px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-family: var(--mono);
   font-size: 13px;
   color: var(--ink);
   border-left: 1px solid var(--line);
@@ -296,14 +455,16 @@
 .add-to-cart {
   display: block;
   width: 100%;
-  padding: 18px 24px;
-  margin-top: 8px;
+  min-height: 64px;
+  padding: 20px 24px;
+  margin-top: 10px;
   border: 1px solid var(--ink);
   background: var(--ink);
   color: var(--paper);
   font-family: var(--font-sans);
   font-size: 12px;
   letter-spacing: var(--tracking-xwide);
+  text-indent: var(--tracking-xwide);
   cursor: pointer;
   transition: background-color 0.3s var(--ease), color 0.3s var(--ease),
               opacity 0.3s var(--ease);
@@ -323,12 +484,14 @@
 .add-to-cart.is-added:hover {
   background: var(--ink);
   color: var(--paper);
+  opacity: 1;
 }
 
 .select-hint {
   font-size: 11px;
   color: var(--ink-mute);
-  margin-top: 10px;
+  letter-spacing: 0.06em;
+  margin-top: 12px;
   min-height: 1em;
 }
 
@@ -336,14 +499,14 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-top: 24px;
+  margin-top: 22px;
   padding: 6px 0;
   border: 0;
   background: transparent;
   color: var(--ink-soft);
-  font-family: var(--font-sans);
-  font-size: 11px;
-  letter-spacing: var(--tracking-wide);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.24em;
   cursor: pointer;
   transition: color 0.3s var(--ease);
 }
@@ -367,10 +530,11 @@
 
 .product-desc {
   font-size: 13px;
-  line-height: 2;
+  line-height: 2.1;
+  letter-spacing: 0.04em;
   color: var(--ink-soft);
-  margin-top: 40px;
-  margin-bottom: 48px;
+  margin-top: 42px;
+  margin-bottom: 50px;
 }
 
 .product-accordion {
@@ -385,10 +549,9 @@
   list-style: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 18px 4px;
   font-size: 12px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--ink);
   cursor: pointer;
   transition: color 0.3s var(--ease);
@@ -402,7 +565,16 @@
   color: var(--ink-soft);
 }
 
+.acc-no {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--ink-mute);
+  margin-right: 16px;
+}
+
 .acc-mark {
+  margin-left: auto;
   font-size: 13px;
   color: var(--ink-mute);
   transition: transform 0.3s var(--ease);
@@ -427,76 +599,133 @@
 }
 
 /* --------------------------------------------------------------------------
-   Related items
+   Related items — spec-card flip cards
    -------------------------------------------------------------------------- */
 
 .related {
-  margin-top: 120px;
+  margin-top: 140px;
+}
+
+.related-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 16px;
+  margin-bottom: 36px;
 }
 
 .related-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 300;
   letter-spacing: var(--tracking-xwide);
+  text-transform: uppercase;
   color: var(--ink);
-  margin-bottom: 32px;
+}
+
+.related-note {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--ink-mute);
+  text-align: right;
 }
 
 .related-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 24px 16px;
+  gap: 32px 16px;
 }
 
 @media (min-width: 768px) {
   .related-grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 32px 24px;
+    gap: 40px 24px;
   }
 }
 
-.related-card {
-  display: block;
-  text-decoration: none;
+/* front face */
+.rc-front {
+  display: flex;
+  flex-direction: column;
   color: var(--ink);
+  text-decoration: none;
 }
 
-.related-card figure {
-  margin: 0 0 12px;
+.rc-no {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  color: var(--ink-mute);
+  margin-bottom: 10px;
+}
+
+.rc-figure {
+  margin: 0;
   background: var(--paper-warm);
-  overflow: hidden;
+  border: 1px solid var(--line);
 }
 
-.related-card img {
+.rc-figure img {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 3 / 4;
   object-fit: cover;
-  transition: transform 0.6s var(--ease);
 }
 
-.related-card:hover img {
-  transform: scale(1.03);
-}
-
-.related-card .rc-brand {
-  font-size: 10px;
-  letter-spacing: var(--tracking-wide);
-  color: var(--ink-mute);
-  margin-bottom: 4px;
-}
-
-.related-card .rc-name {
+.rc-name {
   font-size: 12px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   line-height: 1.5;
-  margin-bottom: 4px;
+  margin-top: 13px;
+  text-transform: uppercase;
 }
 
-.related-card .rc-price {
-  font-size: 13px;
+.rc-price {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
   color: var(--ink-soft);
+  margin-top: 5px;
+}
+
+/* back face — shared .spec-card__back gives black mono spec sheet */
+.related-grid .spec-card__back dd {
+  color: var(--paper);
+}
+
+.rc-back-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rc-back-foot .stitches {
+  margin: 0;
+  color: var(--paper);
+  opacity: 0.65;
+}
+
+.rc-view {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--paper);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 3px;
+  white-space: nowrap;
+}
+
+.rc-view:hover {
+  opacity: 0.6;
 }
 
 /* --------------------------------------------------------------------------
@@ -510,11 +739,12 @@
   z-index: 200;
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 16px 22px;
+  gap: 22px;
+  padding: 17px 24px;
   background: var(--ink);
   color: var(--paper);
   font-size: 12px;
+  letter-spacing: 0.06em;
   transform: translateY(calc(100% + 32px));
   opacity: 0;
   visibility: hidden;
@@ -531,9 +761,10 @@
 }
 
 .toast-link {
+  font-family: var(--mono);
   color: var(--paper);
-  font-size: 11px;
-  letter-spacing: var(--tracking-wide);
+  font-size: 10px;
+  letter-spacing: 0.26em;
   text-decoration: underline;
   text-underline-offset: 4px;
   white-space: nowrap;
@@ -544,5 +775,19 @@
     left: 16px;
     right: 16px;
     justify-content: space-between;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Small screens
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 480px) {
+  .plate-num {
+    right: 10px;
+    bottom: 40px;
+  }
+  .related-note {
+    display: none;
   }
 }
