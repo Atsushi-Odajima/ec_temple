@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>aseed — AW26 BRUTAL EDITORIAL</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23000'/%3E%3C/svg%3E">
+<style>
+/* ============================================================
+   aseed / CONCEPT 01 「BRUTAL EDITORIAL」 誌面ブルータリズム
+   monochrome only. no radius. no soft shadow. print-violence.
+   ============================================================ */
+:root{
+  --ink:#0a0a0a;
+  --paper:#f4f4f2;
+  --hair:rgba(10,10,10,.14);
+  --mono:ui-monospace,"SF Mono","Courier New",monospace;
+  --sans:"Helvetica Neue",Helvetica,Arial,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;border-radius:0!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--ink);color:var(--paper)}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* ---------- exposed 12-col grid ---------- */
+.grid-lines{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(to right,var(--hair) 0,var(--hair) 1px,transparent 1px);
+  background-size:calc(100%/12) 100%;
+  border-right:1px solid var(--hair);
+}
+/* ---------- film grain (feTurbulence) ---------- */
+.grain{position:fixed;inset:-100px;z-index:60;pointer-events:none;opacity:.5}
+.grain svg{width:100%;height:100%}
+
+/* ---------- crosshair custom cursor ---------- */
+@media (pointer:fine){
+  body.cursor-on{cursor:none}
+  body.cursor-on a,body.cursor-on button{cursor:none}
+}
+.xh{position:fixed;z-index:70;pointer-events:none;background:var(--ink);opacity:0;transition:opacity .3s}
+body.cursor-live .xh{opacity:.55}
+.xh-v{top:0;left:0;width:1px;height:100vh;will-change:transform}
+.xh-h{top:0;left:0;height:1px;width:100vw;will-change:transform}
+.xh-dot{
+  position:fixed;z-index:71;top:0;left:0;width:9px;height:9px;
+  background:var(--ink);pointer-events:none;opacity:0;
+  transition:opacity .3s;will-change:transform;
+}
+body.cursor-live .xh-dot{opacity:1}
+body.inverted-zone .xh,body.inverted-zone .xh-dot{background:var(--paper)}
+
+/* ---------- scroll progress hairline ---------- */
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;z-index:80;background:transparent}
+.progress i{display:block;height:100%;width:100%;background:var(--ink);transform-origin:0 50%;transform:scaleX(0);will-change:transform}
+
+/* ---------- crop marks ---------- */
+.crop{position:absolute;width:22px;height:22px;pointer-events:none;z-index:3}
+.crop::before,.crop::after{content:"";position:absolute;background:var(--ink)}
+.crop::before{width:100%;height:1px;top:0}
+.crop::after{width:1px;height:100%;left:0}
+.crop.tl{top:14px;left:14px}
+.crop.tr{top:14px;right:14px;transform:scaleX(-1)}
+.crop.bl{bottom:14px;left:14px;transform:scaleY(-1)}
+.crop.br{bottom:14px;right:14px;transform:scale(-1)}
+
+/* ---------- mono annotations ---------- */
+.ann{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;line-height:1.6}
+.secno{font-family:var(--mono);font-size:11px;letter-spacing:.2em}
+
+/* ============ HEADER ============ */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:18px 24px;mix-blend-mode:difference;color:#fff;
+  transition:transform .4s cubic-bezier(.76,0,.24,1);
+  will-change:transform;
+}
+header.hide{transform:translateY(-110%)}
+header.solid{
+  mix-blend-mode:normal;background:var(--paper);color:var(--ink);
+  border-bottom:1px solid var(--ink);
+}
+header .logo{font-size:20px;font-weight:700;letter-spacing:.42em;text-transform:lowercase}
+header nav{display:flex;gap:28px}
+header a{font-family:var(--mono);font-size:10px;letter-spacing:.18em}
+header a span{display:inline-block;transition:transform .25s}
+header a:hover span{transform:translateY(-3px)}
+
+/* ============ SEC 00 / HERO ============ */
+.hero{
+  position:relative;min-height:100vh;z-index:1;
+  padding:110px 24px 0;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.hero-meta{display:flex;justify-content:space-between;align-items:flex-start;border-top:1px solid var(--ink);padding-top:8px}
+.headline{
+  font-size:clamp(90px,20vw,280px);
+  line-height:.82;font-weight:800;letter-spacing:-.045em;
+  text-transform:uppercase;user-select:none;
+  margin:4vh 0 0 -8px;
+  will-change:transform;
+}
+.headline .row{display:flex;align-items:center;gap:3vw;white-space:nowrap}
+.headline .rule{flex:1 1 auto;height:2px;background:var(--ink);min-width:40px}
+.headline .hy{font-weight:200}
+.headline .ghost{
+  color:transparent;
+  -webkit-text-stroke:2px var(--ink);
+  text-stroke:2px var(--ink);
+}
+.hero-foot{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  border-top:1px solid var(--ink);
+  padding:10px 0 18px;gap:24px;
+}
+.hero-foot .jp{font-size:clamp(14px,1.6vw,20px);letter-spacing:.34em;font-weight:500}
+.hero-scroll{font-family:var(--mono);font-size:10px;letter-spacing:.3em;display:flex;align-items:center;gap:10px}
+.hero-scroll::after{content:"";width:1px;height:34px;background:var(--ink);display:block;animation:drop 1.6s ease-in-out infinite}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ============ MARQUEES ============ */
+.marquee{
+  position:relative;z-index:1;overflow:hidden;white-space:nowrap;
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+  padding:10px 0;user-select:none;
+}
+.marquee.dark{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.marquee .track{display:inline-flex;will-change:transform}
+.marquee .unit{display:inline-flex;align-items:baseline;flex-shrink:0}
+.marquee .unit span{font-size:clamp(16px,2.4vw,30px);font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:0 1.6vw}
+.marquee .unit em{font-family:var(--mono);font-style:normal;font-size:11px;letter-spacing:.2em;opacity:.7;padding:0 1.6vw}
+.marquee .unit b{font-weight:200;padding:0 .4vw}
+.mq-a .track{animation:mq-l 26s linear infinite}
+.mq-b .track{animation:mq-r 34s linear infinite}
+.mq-c .track{animation:mq-l 20s linear infinite}
+@keyframes mq-l{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+@keyframes mq-r{from{transform:translate3d(-50%,0,0)}to{transform:translate3d(0,0,0)}}
+
+/* ============ section chrome ============ */
+section{position:relative;z-index:1}
+.sec-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:16px 24px;border-bottom:1px solid var(--ink);
+}
+.sec-head h2{font-size:12px;font-weight:700;letter-spacing:.4em;text-transform:uppercase}
+
+/* ============ SEC 01 / STATEMENT ============ */
+.statement{padding:14vh 24px 14vh;position:relative}
+.statement .body{
+  margin-left:calc(100%/12*3);
+  max-width:calc(100%/12*8);
+}
+.statement p.jp{
+  font-size:clamp(26px,4.6vw,58px);
+  line-height:1.55;font-weight:600;letter-spacing:.12em;
+  font-feature-settings:"palt";
+}
+.statement p.jp .strike{position:relative;white-space:nowrap}
+.statement p.jp .strike::after{
+  content:"";position:absolute;left:-2%;right:-2%;top:52%;height:2px;background:var(--ink);
+}
+.statement p.jp .inv{background:var(--ink);color:var(--paper);padding:.02em .12em}
+.statement .foot-ann{margin-top:6vh;margin-left:calc(100%/12*3);display:flex;gap:6vw;flex-wrap:wrap}
+.statement .side{position:absolute;left:24px;top:14vh;writing-mode:vertical-rl;font-family:var(--mono);font-size:10px;letter-spacing:.4em;opacity:.6}
+
+/* ============ SEC 02 / INDEX (run of show) ============ */
+.index-list{border-bottom:1px solid var(--ink)}
+.row-item{
+  position:relative;display:grid;
+  grid-template-columns:calc(100%/12) 1fr calc(100%/12*2) calc(100%/12*2);
+  align-items:baseline;
+  padding:26px 24px;border-top:1px solid var(--ink);
+  transition:background-color .18s,color .18s;
+}
+.row-item:hover,.row-item.hot{background:var(--ink);color:var(--paper)}
+.row-item .no{font-family:var(--mono);font-size:12px;letter-spacing:.2em}
+.row-item .name{
+  font-size:clamp(21px,3.1vw,40px);font-weight:800;letter-spacing:-.01em;
+  text-transform:uppercase;line-height:1;
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+}
+.row-item .name .jp{font-size:clamp(10px,1vw,13px);font-weight:500;letter-spacing:.3em}
+.row-item .line{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+.row-item .price{font-family:var(--mono);font-size:clamp(13px,1.4vw,17px);letter-spacing:.1em;text-align:right;font-weight:500}
+.row-item::after{ /* arrow, revealed on hover */
+  content:"→";position:absolute;right:24px;top:8px;
+  font-size:14px;opacity:0;transform:translateX(-8px);
+  transition:opacity .18s,transform .18s;
+}
+.row-item:hover::after{opacity:1;transform:translateX(0)}
+
+/* floating product image that stalks the cursor */
+.stalker{
+  position:fixed;z-index:40;top:0;left:0;
+  width:min(300px,26vw);aspect-ratio:3/4;
+  pointer-events:none;opacity:0;
+  transform:translate3d(-200px,-200px,0);
+  will-change:transform,opacity;
+  border:1px solid var(--ink);
+  background:var(--paper);
+  transition:opacity .22s;
+}
+.stalker.on{opacity:1}
+.stalker img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .15s}
+.stalker img.show{opacity:1}
+.stalker .tag{
+  position:absolute;left:0;bottom:-1px;transform:translateY(100%);
+  background:var(--ink);color:var(--paper);
+  font-family:var(--mono);font-size:9px;letter-spacing:.2em;padding:4px 8px;
+}
+
+/* ============ SEC 03 / STORE CTA ============ */
+.store{
+  background:var(--ink);color:var(--paper);
+  padding:16vh 24px;position:relative;overflow:hidden;
+}
+.store .sec-tag{position:absolute;top:16px;left:24px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;opacity:.7}
+.store .coords{position:absolute;top:16px;right:24px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;opacity:.7;text-align:right}
+.store h3{
+  font-size:clamp(56px,11vw,170px);line-height:.88;font-weight:800;
+  letter-spacing:-.03em;text-transform:uppercase;
+}
+.store h3 .ghost{color:transparent;-webkit-text-stroke:1.5px var(--paper)}
+.store .addr{margin-top:5vh;display:flex;flex-wrap:wrap;gap:6vw;align-items:flex-end;justify-content:space-between}
+.store .addr .jp{font-size:clamp(13px,1.5vw,17px);letter-spacing:.28em;line-height:2.1}
+.store-btn{
+  display:inline-block;border:1px solid var(--paper);
+  padding:20px 54px;font-family:var(--mono);font-size:12px;letter-spacing:.4em;
+  position:relative;overflow:hidden;transition:color .25s;
+}
+.store-btn::before{
+  content:"";position:absolute;inset:0;background:var(--paper);
+  transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.76,0,.24,1);
+  z-index:-1;
+}
+.store-btn:hover{color:var(--ink)}
+.store-btn:hover::before{transform:scaleX(1)}
+.store-btn i{font-style:normal;position:relative}
+
+/* ============ SEC 04 / FOOTER ============ */
+footer{border-top:1px solid var(--ink);position:relative;z-index:1;background:var(--paper)}
+.foot-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;padding:26px 24px;border-bottom:1px solid var(--ink)}
+.giant-wrap{overflow:hidden;padding:2vw 0 0}
+.giant{
+  display:block;text-align:center;
+  font-size:clamp(120px,24.5vw,360px);
+  line-height:.78;font-weight:800;letter-spacing:-.02em;
+  color:transparent;-webkit-text-stroke:2px var(--ink);text-stroke:2px var(--ink);
+  transition:color .45s cubic-bezier(.76,0,.24,1);
+  user-select:none;transform:translateY(6%);
+}
+.giant:hover{color:var(--ink)}
+.foot-legal{display:flex;justify-content:space-between;padding:14px 24px;border-top:1px solid var(--ink)}
+
+/* ---------- reveal on scroll ---------- */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- responsive ---------- */
+@media (max-width:760px){
+  .row-item{grid-template-columns:44px 1fr;gap:4px 8px}
+  .row-item .line{grid-column:2;order:3}
+  .row-item .price{grid-column:2;text-align:left;order:4}
+  .statement .body,.statement .foot-ann{margin-left:0;max-width:none}
+  .statement .side{display:none}
+  header nav{gap:16px}
+  .stalker{display:none}
+  .headline .ann{display:none}
+}
+
+/* ---------- reduced motion: kill it all ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+  .mq-a .track,.mq-b .track,.mq-c .track{animation:none!important}
+  .stalker{display:none}
+  .xh,.xh-dot{display:none}
+  body.cursor-on{cursor:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- exposed grid -->
+<div class="grid-lines" aria-hidden="true"></div>
+
+<!-- scroll progress -->
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+<!-- crosshair cursor -->
+<div class="xh xh-v" id="xhV" aria-hidden="true"></div>
+<div class="xh xh-h" id="xhH" aria-hidden="true"></div>
+<div class="xh-dot" id="xhDot" aria-hidden="true"></div>
+
+<header>
+  <a class="logo" href="#top">aseed</a>
+  <nav>
+    <a href="#collection"><span>INDEX</span></a>
+    <a href="#statement"><span>MANIFESTO</span></a>
+    <a href="#store"><span>STORE</span></a>
+  </nav>
+</header>
+
+<!-- ================= SEC 00 / HERO ================= -->
+<section class="hero" id="top">
+  <div class="crop tl" aria-hidden="true"></div><div class="crop tr" aria-hidden="true"></div>
+  <div class="hero-meta">
+    <span class="secno">00 — COVER</span>
+    <span class="ann">AW26 / TOKYO<br>35.6595°N&nbsp;139.7005°E</span>
+    <span class="ann" style="text-align:right">EDITION 001 / 500<br>PRINTED&nbsp;IN&nbsp;JAPAN</span>
+  </div>
+
+  <h1 class="headline" id="headline" aria-label="DECONSTRUCTED">
+    <span class="row"><span>DECON</span><span class="rule" aria-hidden="true"></span></span>
+    <span class="row"><span class="ghost">STRUC</span><span class="rule" aria-hidden="true"></span><span class="ann" style="letter-spacing:.4em" aria-hidden="true">脱・構・築</span></span>
+    <span class="row"><span>TED.</span><span class="hy" aria-hidden="true">—</span><span class="rule" aria-hidden="true"></span><span class="ann" aria-hidden="true">FAB&nbsp;CTN-100/RAW</span></span>
+  </h1>
+
+  <div class="hero-foot">
+    <p class="jp">縫い目は、思想である。</p>
+    <div class="hero-scroll">SCROLL</div>
+  </div>
+</section>
+
+<!-- marquee A -->
+<div class="marquee mq-a dark" aria-hidden="true">
+  <div class="track" id="trackA"></div>
+</div>
+
+<!-- ================= SEC 01 / STATEMENT ================= -->
+<section class="statement" id="statement">
+  <div class="crop bl" aria-hidden="true"></div><div class="crop br" aria-hidden="true"></div>
+  <span class="side">MANIFESTO — 声明</span>
+  <div class="sec-head" style="position:absolute;top:0;left:0;right:0">
+    <span class="secno">01 — MANIFESTO</span>
+    <span class="ann">GRID 12COL / GUTTER 0<br>DO&nbsp;NOT&nbsp;PRINT&nbsp;THIS&nbsp;LINE</span>
+  </div>
+  <div class="body rv">
+    <p class="jp">服を<span class="strike">完成</span>させない。<br>
+    ほどかれた縫い目、<span class="inv">裏返る</span>構造。<br>
+    白と黒のあいだにだけ、<br>
+    まだ名前のない<br>美しさが残る。</p>
+  </div>
+  <div class="foot-ann rv">
+    <span class="ann">NOTE 01 —<br>UNFINISHED = HONEST</span>
+    <span class="ann">NOTE 02 —<br>MONOCHROME&nbsp;ONLY&nbsp;/ #000–#FFF</span>
+    <span class="ann">NOTE 03 —<br>再構築系 AW26</span>
+  </div>
+</section>
+
+<!-- marquee B (reverse) -->
+<div class="marquee mq-b" aria-hidden="true">
+  <div class="track" id="trackB"></div>
+</div>
+
+<!-- ================= SEC 02 / COLLECTION INDEX ================= -->
+<section id="collection">
+  <div class="sec-head">
+    <h2>Run of Show — Index</h2>
+    <span class="secno">02 — COLLECTION / 全8体</span>
+  </div>
+  <div class="index-list" id="indexList">
+    <a class="row-item" href="../product.html" data-img="../assets/img/p01.svg" data-no="01">
+      <span class="no">N°01</span>
+      <span class="name">RAW-EDGE TRENCH <span class="jp">解体トレンチ</span></span>
+      <span class="line">LINE 1 — ATELIER / CTN-100</span>
+      <span class="price">¥98,000</span>
+    </a>
+    <a class="row-item" href="../product.html" data-img="../assets/img/p03.svg" data-no="02">
+      <span class="no">N°02</span>
+      <span class="name">INSIDE-OUT SHIRT <span class="jp">裏返しシャツ</span></span>
+      <span class="line">LINE 1 — ATELIER / CTN-080</span>
+      <span class="price">¥52,800</span>
+    </a>
+    <a class="row-item" href="../product.html" data-img="../assets/img/p05.svg" data-no="03">
+      <span class="no">N°03</span>
+      <span class="name">UNFINISHED KNIT <span class="jp">未完のニット</span></span>
+      <span class="line">LINE 2 — GARMENT / WOL-120</span>
+      <span class="price">¥68,200</span>
+    </a>
+    <a class="row-item" href="../product.html" data-img="../assets/img/p07.svg" data-no="04">
+      <span class="no">N°04</span>
+      <span class="name">PATTERN-CUT TROUSERS <span class="jp">型紙のパンツ</span></span>
+      <span class="line">LINE 2 — GARMENT / CTN-140</span>
+      <span class="price">¥46,200</span>
+    </a>
+    <a class="row-item" href="../product.html" data-img="../assets/img/p10.svg" data-no="05">
+      <span class="no">N°05</span>
+      <span class="name">EXPOSED-SEAM BLAZER <span class="jp">露出縫製ブレザー</span></span>
+      <span class="line">LINE 3 — TAILORED / WOL-200</span>
+      <span class="price">¥124,000</span>
+    </a>
+    <a class="row-item" href="../product.html" data-img="../assets/img/p13.svg" data-no="06">
+      <span class="no">N°06</span>
+      <span class="name">WHITE-STITCH DENIM <span class="jp">白ステッチデニム</span></span>
+      <span class="line">LINE 4 — WORK / DNM-135</span>
+      <span class="price">¥39,600</span>
+    </a>
+    <a class="row-item" href="../product.html" data-img="../assets/img/p16.svg" data-no="07">
+      <span class="no">N°07</span>
+      <span class="name">VOID LONG COAT <span class="jp">空白のコート</span></span>
+      <span class="line">LINE 3 — TAILORED / WOL-240</span>
+      <span class="price">¥156,000</span>
+    </a>
+    <a class="row-item" href="../product.html" data-img="../assets/img/p19.svg" data-no="08">
+      <span class="no">N°08</span>
+      <span class="name">ZERO T-SHIRT <span class="jp">零号Tシャツ</span></span>
+      <span class="line">LINE 0 — BASIS / CTN-060</span>
+      <span class="price">¥18,700</span>
+    </a>
+  </div>
+</section>
+
+<!-- floating stalker image -->
+<div class="stalker" id="stalker" aria-hidden="true">
+  <span class="tag" id="stalkerTag">N°01 / AW26</span>
+</div>
+
+<!-- marquee C -->
+<div class="marquee mq-c dark" aria-hidden="true">
+  <div class="track" id="trackC"></div>
+</div>
+
+<!-- ================= SEC 03 / STORE ================= -->
+<section class="store" id="store" data-invert>
+  <span class="sec-tag">03 — STORE</span>
+  <span class="coords">35.6595°N 139.7005°E<br>ELEV +40M</span>
+  <h3 class="rv">VISIT<br>THE <span class="ghost">VOID</span>.</h3>
+  <div class="addr rv">
+    <p class="jp">アシード 東京旗艦店<br>東京都渋谷区神南 1-XX-X<br>12:00 — 20:00 / 不定休</p>
+    <a class="store-btn" href="../store.html"><i>店舗情報&nbsp;→</i></a>
+  </div>
+</section>
+
+<!-- ================= SEC 04 / FOOTER ================= -->
+<footer id="footer">
+  <div class="foot-meta">
+    <span class="ann">04 — COLOPHON<br>aseed co., ltd.</span>
+    <span class="ann">TYPE: HELVETICA / MONOSPACE<br>INK: K100 ONLY</span>
+    <span class="ann" style="text-align:right">ONLINE STORE — <a href="../index.html" style="text-decoration:underline">SHOP ALL</a><br>CONTACT — HELLO@ASEED.JP</span>
+  </div>
+  <div class="giant-wrap">
+    <a class="giant" href="#top" aria-label="aseed — ページ上部へ">aseed</a>
+  </div>
+  <div class="foot-legal">
+    <span class="ann">© 2026 aseed / AW26「DECONSTRUCTED」</span>
+    <span class="ann">CONCEPT 01 — BRUTAL EDITORIAL</span>
+  </div>
+</footer>
+
+<!-- film grain -->
+<div class="grain" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg">
+    <filter id="grainF">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.35 0.35 0.35 0 0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.16"/></feComponentTransfer>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#grainF)"/>
+  </svg>
+</div>
+
+<script>
+(function(){
+"use strict";
+var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var finePointer = window.matchMedia("(pointer: fine)").matches;
+
+/* ---------- marquee content ---------- */
+function fillTrack(id, items){
+  var el = document.getElementById(id);
+  if(!el) return;
+  var html = "";
+  items.forEach(function(it){
+    html += '<span class="unit"><span>'+it[0]+'</span><b>/</b><em>'+it[1]+'</em></span>';
+  });
+  el.innerHTML = html + html; /* duplicate for seamless loop */
+}
+fillTrack("trackA",[
+  ["AW26","TOKYO"],["DECONSTRUCTED","脱構築"],["RAW-EDGE TRENCH","¥98,000"],
+  ["INSIDE-OUT SHIRT","¥52,800"],["EXPOSED SEAM","縫い目露出"],["MONOCHROME","K100"]
+]);
+fillTrack("trackB",[
+  ["未完成こそ誠実","UNFINISHED = HONEST"],["VOID LONG COAT","¥156,000"],
+  ["WHITE-STITCH DENIM","¥39,600"],["RUN OF SHOW","全8体"],["aseed","EDITION 001/500"]
+]);
+fillTrack("trackC",[
+  ["VISIT THE VOID","渋谷区神南"],["12:00 — 20:00","不定休"],["ZERO T-SHIRT","¥18,700"],
+  ["AW26 — TOKYO","DECONSTRUCTED"],["店舗情報","35.6595°N 139.7005°E"]
+]);
+
+/* ---------- scroll progress + hero parallax (rAF) ---------- */
+var bar = document.getElementById("progressBar");
+var headline = document.getElementById("headline");
+var headerEl = document.querySelector("header");
+var scrollY = 0, lastY = 0, ticking = false;
+function onScrollFrame(){
+  ticking = false;
+  var max = document.documentElement.scrollHeight - window.innerHeight;
+  var p = max > 0 ? scrollY / max : 0;
+  bar.style.transform = "scaleX(" + p + ")";
+  /* header hides scrolling down, returns scrolling up */
+  if(scrollY > 120 && scrollY > lastY + 2){ headerEl.classList.add("hide"); }
+  else if(scrollY < lastY - 2 || scrollY <= 120){ headerEl.classList.remove("hide"); }
+  headerEl.classList.toggle("solid", scrollY > window.innerHeight * 0.7);
+  lastY = scrollY;
+  if(!reduced && headline){
+    var h = Math.min(scrollY, window.innerHeight);
+    headline.style.transform = "translate3d(0," + (h * 0.22) + "px,0)";
+    headline.style.opacity = String(Math.max(0, 1 - h / (window.innerHeight * 0.9)));
+  }
+}
+window.addEventListener("scroll", function(){
+  scrollY = window.scrollY || window.pageYOffset;
+  if(!ticking){ ticking = true; requestAnimationFrame(onScrollFrame); }
+}, {passive:true});
+scrollY = window.scrollY; requestAnimationFrame(onScrollFrame);
+
+/* ---------- reveal on scroll ---------- */
+var rvs = document.querySelectorAll(".rv");
+if("IntersectionObserver" in window && !reduced){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+    });
+  }, {threshold:.15});
+  rvs.forEach(function(el){ io.observe(el); });
+}else{
+  rvs.forEach(function(el){ el.classList.add("in"); });
+}
+
+/* ---------- crosshair cursor ---------- */
+if(finePointer && !reduced){
+  document.body.classList.add("cursor-on");
+  var xv = document.getElementById("xhV"),
+      xh = document.getElementById("xhH"),
+      dot = document.getElementById("xhDot");
+  var mx = -100, my = -100, dx = -100, dy = -100, live = false, rafId = null;
+
+  function cursorLoop(){
+    dx += (mx - dx) * 0.22;
+    dy += (my - dy) * 0.22;
+    xv.style.transform  = "translate3d(" + mx + "px,0,0)";
+    xh.style.transform  = "translate3d(0," + my + "px,0)";
+    dot.style.transform = "translate3d(" + (dx - 4.5) + "px," + (dy - 4.5) + "px,0)";
+    rafId = requestAnimationFrame(cursorLoop);
+  }
+  window.addEventListener("mousemove", function(e){
+    mx = e.clientX; my = e.clientY;
+    if(!live){
+      live = true; dx = mx; dy = my;
+      document.body.classList.add("cursor-live");
+      rafId = requestAnimationFrame(cursorLoop);
+    }
+    /* flip cursor to white inside dark zones */
+    var t = e.target;
+    var dark = !!(t.closest && (t.closest("[data-invert]") || t.closest(".marquee.dark") || t.closest(".row-item:hover")));
+    document.body.classList.toggle("inverted-zone", dark);
+  }, {passive:true});
+  document.documentElement.addEventListener("mouseleave", function(){
+    live = false;
+    document.body.classList.remove("cursor-live");
+    if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+  });
+}
+
+/* ---------- floating stalker image over index rows ---------- */
+var stalker = document.getElementById("stalker");
+var stalkerTag = document.getElementById("stalkerTag");
+var list = document.getElementById("indexList");
+if(stalker && list && finePointer && !reduced){
+  /* preload one img element per product, crossfade by class */
+  var rows = list.querySelectorAll(".row-item");
+  var imgs = {};
+  rows.forEach(function(r){
+    var src = r.getAttribute("data-img");
+    if(!imgs[src]){
+      var im = document.createElement("img");
+      im.src = src; im.alt = "";
+      stalker.insertBefore(im, stalkerTag);
+      imgs[src] = im;
+    }
+  });
+  var sx = 0, sy = 0, tx = 0, ty = 0, sRaf = null, active = false, current = null;
+  function stalkLoop(){
+    sx += (tx - sx) * 0.12;
+    sy += (ty - sy) * 0.12;
+    stalker.style.transform = "translate3d(" + sx + "px," + sy + "px,0)";
+    if(active || Math.abs(tx - sx) > 0.5 || Math.abs(ty - sy) > 0.5){
+      sRaf = requestAnimationFrame(stalkLoop);
+    }else{ sRaf = null; }
+  }
+  list.addEventListener("mousemove", function(e){
+    var w = stalker.offsetWidth || 300;
+    tx = Math.min(e.clientX + 36, window.innerWidth - w - 24);
+    ty = e.clientY - (stalker.offsetHeight || 400) * 0.5;
+    if(!active){
+      active = true; sx = tx; sy = ty;
+      stalker.classList.add("on");
+    }
+    if(!sRaf) sRaf = requestAnimationFrame(stalkLoop);
+  }, {passive:true});
+  list.addEventListener("mouseleave", function(){
+    active = false;
+    stalker.classList.remove("on");
+  });
+  rows.forEach(function(r){
+    r.addEventListener("mouseenter", function(){
+      var src = r.getAttribute("data-img");
+      if(current) current.classList.remove("show");
+      current = imgs[src];
+      current.classList.add("show");
+      stalkerTag.textContent = "N°" + r.getAttribute("data-no") + " / AW26 — DECONSTRUCTED";
+    });
+  });
+}
+})();
+</script>
+</body>
+</html>
