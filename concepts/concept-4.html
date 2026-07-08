@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aseed — SPECIMEN 「標本」</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23000'/%3E%3C/svg%3E">
+<style>
+/* ============ SPECIMEN — kinetic type specimen ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --white:#ffffff; --paper:#f7f7f5; --ink:#0a0a0a; --black:#0a0a0a;
+  --grey:#8a8a8a; --hair:rgba(10,10,10,.14); --hair-w:rgba(255,255,255,.18);
+  --sans:"Helvetica Neue",Helvetica,Arial,"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --wipe:cubic-bezier(.76,0,.24,1);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans); background:var(--white); color:var(--ink);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+  isolation:isolate; /* keeps the difference-blend chrome inside one group — avoids root-surface compositing artifacts */
+}
+a{color:inherit;text-decoration:none}
+:focus{outline:none}
+:focus-visible{outline:1px solid currentColor;outline-offset:6px}
+.s-white ::selection{background:#0a0a0a;color:#fff}
+.s-black ::selection{background:#fff;color:#0a0a0a}
+::selection{background:#0a0a0a;color:#fff}
+
+/* ---------- fixed chrome: everything auto-inverts via difference ---------- */
+.chrome{position:fixed;z-index:40;color:#fff;mix-blend-mode:difference;pointer-events:none}
+.chrome a,.chrome button{pointer-events:auto}
+
+/* nav */
+nav.chrome{top:0;left:0;right:0;display:flex;align-items:baseline;justify-content:space-between;
+  padding:22px 56px 0 32px;font-family:var(--mono);font-size:11px;letter-spacing:.18em}
+nav .logo{font-family:var(--sans);font-size:17px;font-weight:400;letter-spacing:.34em}
+nav ul{display:flex;gap:34px;list-style:none}
+nav a{display:inline-block;white-space:pre}
+nav a:hover{opacity:.55}
+
+/* stitch progress — right edge */
+.stitch{top:0;bottom:0;right:23px;width:16px}
+.stitch .guide{position:absolute;top:0;bottom:0;right:7px;width:1px;background:currentColor;opacity:.14}
+.stitch .thread{position:absolute;top:0;bottom:0;right:7px;width:1px;
+  background:repeating-linear-gradient(to bottom,currentColor 0 7px,transparent 7px 13px);
+  clip-path:inset(0 0 100% 0)}
+.stitch .needle{position:absolute;top:0;right:4px;width:7px;height:7px;border:1px solid currentColor;border-radius:50%;
+  transform:translateY(-4px);background:transparent}
+
+/* section counter */
+.counter{bottom:24px;right:52px;font-family:var(--mono);font-size:10px;letter-spacing:.28em;
+  text-align:right;line-height:1.9}
+.counter .cname{display:block;font-size:9px;opacity:.6}
+
+/* left margin meta */
+.meta-l{bottom:24px;left:32px;font-family:var(--mono);font-size:9px;letter-spacing:.24em;line-height:2;opacity:.75}
+
+/* ---------- background marquee (giant outline type) ---------- */
+.marquee{position:fixed;z-index:30;left:0;right:0;top:50%;transform:translateY(-50%);
+  overflow:hidden;pointer-events:none;mix-blend-mode:difference;opacity:.16}
+.marquee .track{display:inline-block;white-space:nowrap;will-change:transform;
+  font-weight:700;font-size:24vw;line-height:1;letter-spacing:-.02em;
+  color:transparent;-webkit-text-stroke:1.5px #fff;user-select:none}
+.marquee .track span{padding-right:.35em}
+
+/* ---------- cursor ---------- */
+.cursor{position:fixed;z-index:60;top:0;left:0;width:6px;height:6px;border-radius:50%;
+  background:#fff;mix-blend-mode:difference;pointer-events:none;
+  transform:translate(-100px,-100px);will-change:transform;transition:width .25s var(--ease),height .25s var(--ease)}
+.cursor.big{width:44px;height:44px;background:transparent;border:1px solid #fff}
+
+/* ---------- sections ---------- */
+section{position:relative;z-index:10}
+.s-white{background:var(--white);color:var(--ink)}
+.s-black{background:var(--black);color:#f4f4f2}
+.wipe{clip-path:inset(100% 0 0 0);transition:clip-path 1.15s var(--wipe)}
+.wipe.on{clip-path:inset(0 0 0 0)}
+.rv{opacity:0;transform:translateY(32px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv.on{opacity:1;transform:none}
+
+/* ---------- hero ---------- */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:120px 64px 90px;overflow:hidden}
+.hero .word{display:flex;align-items:baseline;cursor:default;user-select:none;margin-bottom:4vh}
+.hero .ltr{display:inline-block;font-size:clamp(110px,23vw,330px);font-weight:300;line-height:.9;
+  letter-spacing:-.045em;will-change:transform}
+.hero .ltr.o{-webkit-text-stroke:2px #0a0a0a;color:transparent}
+.hero .reg{align-self:flex-start;font-size:clamp(14px,1.6vw,22px);font-weight:300;margin-left:1.2vw;margin-top:3vw}
+.hero .sub{font-family:var(--mono);font-size:11px;letter-spacing:.5em;text-indent:.5em;margin-bottom:2.2vh}
+.hero .subjp{font-size:12px;letter-spacing:.9em;text-indent:.9em;font-weight:300;color:var(--grey)}
+.numstrip{margin-top:6.5vh;display:flex;gap:0;font-family:var(--mono);font-size:10px;letter-spacing:0;color:var(--ink)}
+.numstrip span{width:26px;height:26px;display:flex;align-items:center;justify-content:center;opacity:.45}
+.numstrip span.ring{opacity:1;border:1px solid currentColor;border-radius:50%}
+.scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:9px;letter-spacing:.42em;text-indent:.42em;text-align:center;color:var(--grey)}
+.scrollcue::after{content:"";display:block;width:1px;height:36px;margin:10px auto 0;
+  background:repeating-linear-gradient(to bottom,currentColor 0 4px,transparent 4px 8px);
+  animation:sew 1.6s var(--ease) infinite}
+@keyframes sew{0%{clip-path:inset(0 0 100% 0)}55%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(100% 0 0 0)}}
+
+/* section headers */
+.shead{display:flex;align-items:baseline;justify-content:space-between;
+  font-family:var(--mono);font-size:10px;letter-spacing:.3em;padding:0 0 18px;
+  border-bottom:1px solid currentColor;margin-bottom:0}
+.s-black .shead{border-color:var(--hair-w)}
+.s-white .shead{border-color:var(--hair)}
+.shead .big{font-family:var(--sans);font-size:clamp(26px,3.4vw,44px);font-weight:300;letter-spacing:.04em}
+
+/* ---------- collection ---------- */
+.collection{padding:14vh 64px 16vh}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hair-w);
+  border:1px solid var(--hair-w);border-top:none;margin-top:0}
+.card{background:var(--black);padding:26px 26px 22px;perspective:1100px;position:relative;display:block}
+.card .no{font-family:var(--mono);font-size:9px;letter-spacing:.3em;opacity:.5;margin-bottom:14px;display:flex;justify-content:space-between}
+.flip{display:block;position:relative;aspect-ratio:3/4;transform-style:preserve-3d;will-change:transform;
+  transition:transform .9s var(--ease)}
+.card:hover .flip,.card:focus-visible .flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.front img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1)}
+.face.back{transform:rotateY(180deg);background:#f4f4f2;color:var(--ink);
+  font-family:var(--mono);font-size:10px;line-height:1.7;letter-spacing:.12em;
+  padding:22px 20px;display:flex;flex-direction:column;justify-content:space-between}
+.face.back table{border-collapse:collapse;width:100%}
+.face.back th{font-weight:400;text-align:left;padding:7px 8px 7px 0;color:var(--grey);white-space:nowrap;
+  border-bottom:1px solid var(--hair);vertical-align:top;width:3.5em}
+.face.back td{padding:7px 0;border-bottom:1px solid var(--hair)}
+.face.back .bcode{display:block;height:26px;margin-top:14px;
+  background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 5px,var(--ink) 5px 6px,transparent 6px 11px)}
+.face.back .bnum{margin-top:6px;font-size:8px;letter-spacing:.4em;color:var(--grey)}
+.cap{margin-top:18px;display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.cap .nm{font-size:12.5px;font-weight:300;letter-spacing:.14em}
+.cap .nm small{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.28em;opacity:.5;margin-top:5px}
+.price{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;white-space:nowrap}
+.odo-d{display:inline-block;height:1em;overflow:hidden;vertical-align:-.16em;line-height:1}
+.odo-d i{display:block;font-style:normal;height:1em;line-height:1;
+  transition:transform 1.3s var(--ease)}
+/* ---------- statement ---------- */
+.statement{min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:18vh 64px}
+.statement .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.4em;margin-bottom:7vh;color:var(--grey)}
+.statement h2{font-size:clamp(30px,4.6vw,66px);font-weight:300;line-height:1.7;letter-spacing:.08em}
+.statement h2 em{font-style:normal;-webkit-text-stroke:1.2px #0a0a0a;color:transparent}
+.statement p{margin-top:7vh;max-width:34em;font-size:13px;line-height:2.4;letter-spacing:.18em;color:#555}
+
+/* ---------- store ---------- */
+.store{min-height:88vh;display:flex;flex-direction:column;justify-content:center;padding:16vh 64px}
+.store .cta{display:inline-block;font-weight:300;font-size:clamp(52px,9vw,140px);line-height:1.05;
+  letter-spacing:.02em;white-space:pre;margin:6vh 0}
+.store .cta .arr{display:inline-block;transition:transform .5s var(--ease)}
+.store .cta:hover .arr{transform:translateX(.35em)}
+.store .addr{display:flex;gap:8vw;flex-wrap:wrap;font-family:var(--mono);font-size:11px;
+  line-height:2.3;letter-spacing:.22em;color:#9a9a9a}
+.store .addr b{display:block;font-weight:400;color:#f4f4f2;margin-bottom:6px}
+
+/* ---------- footer ---------- */
+footer{position:relative;z-index:10;background:var(--white);color:var(--ink);
+  padding:64px 64px 118px;font-family:var(--mono);font-size:10px;letter-spacing:.24em}
+footer .frow{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:18px}
+footer ul{display:flex;gap:30px;list-style:none}
+footer a{white-space:pre}
+footer a:hover{opacity:.5}
+.fourstitch{display:flex;gap:9px;margin:0 auto 46px;width:max-content}
+.fourstitch i{width:1px;height:12px;background:var(--ink);display:block}
+footer .c{margin-top:34px;color:var(--grey);font-size:9px}
+
+/* ---------- responsive ---------- */
+@media(max-width:1080px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){
+  .collection,.statement,.store{padding-left:24px;padding-right:44px}
+  .hero{padding:100px 24px 90px}
+  nav.chrome{padding:18px 44px 0 20px}nav ul{gap:18px}
+  .grid{grid-template-columns:1fr}
+  .meta-l{display:none}
+}
+/* ---------- reduced motion ---------- */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .marquee{display:none}
+  .cursor{display:none}
+  .wipe{clip-path:none}
+  .rv{opacity:1;transform:none}
+}
+@media(hover:none){.cursor{display:none}}
+</style>
+</head>
+<body>
+
+<!-- ambient outline marquee -->
+<div class="marquee" aria-hidden="true"><div class="track" id="mtrack"><span>aseed aseed aseed aseed</span><span>aseed aseed aseed aseed</span></div></div>
+
+<!-- fixed chrome -->
+<nav class="chrome" aria-label="メイン">
+  <a class="logo" href="#top" data-scramble>aseed</a>
+  <ul>
+    <li><a href="#collection" data-scramble>COLLECTION</a></li>
+    <li><a href="#maison" data-scramble>MAISON</a></li>
+    <li><a href="#store" data-scramble>STORE</a></li>
+    <li><a href="../cart.html" data-scramble>CART (0)</a></li>
+  </ul>
+</nav>
+<div class="chrome stitch" aria-hidden="true">
+  <div class="guide"></div><div class="thread" id="thread"></div><div class="needle" id="needle"></div>
+</div>
+<div class="chrome counter" aria-hidden="true">
+  <span id="cnum">01 / 05</span>
+  <span class="cname" id="cname">SPECIMEN</span>
+</div>
+<div class="chrome meta-l" aria-hidden="true">KINETIC TYPE SPECIMEN — NO.4<br>白 / 黒 &nbsp;MONOCHROME ONLY</div>
+
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<!-- 01 HERO -->
+<section class="s-white hero" id="top" data-sec="SPECIMEN">
+  <p class="sub">A/W 2026 — TYPE SPECIMEN 「標本」</p>
+  <h1 class="word" id="word" aria-label="aseed">
+    <span class="ltr">a</span><span class="ltr">s</span><span class="ltr">e</span><span class="ltr o">e</span><span class="ltr">d</span><span class="reg" aria-hidden="true">®</span>
+  </h1>
+  <p class="subjp">服は、標本である。</p>
+  <div class="numstrip" aria-hidden="true">
+    <span>0</span><span>1</span><span>2</span><span>3</span><span class="ring">4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span>
+  </div>
+  <p class="scrollcue">SCROLL</p>
+</section>
+
+<!-- 02 COLLECTION -->
+<section class="s-black wipe collection" id="collection" data-sec="COLLECTION">
+  <header class="shead rv">
+    <span class="big">COLLECTION</span>
+    <span>標本 No.01 — No.08 / 二〇二六 秋冬</span>
+  </header>
+  <div class="grid" id="grid"></div>
+</section>
+
+<!-- 03 MAISON / statement -->
+<section class="s-white statement" id="maison" data-sec="MAISON">
+  <p class="kicker rv">MAISON — 声明</p>
+  <h2 class="rv">服は、完成しない。<br>着る人の輪郭をなぞって、<br>はじめて<em>縫い終わる</em>。</h2>
+  <p class="rv">aseed は装飾を削り、縫い目と余白だけを残す。白と黒のあいだにある無数の灰色 — それが着る人の余地である。名前も、色も、意味さえも、最後のひと針はあなたに委ねられている。</p>
+</section>
+
+<!-- 04 STORE -->
+<section class="s-black wipe store" id="store" data-sec="STORE">
+  <header class="shead rv">
+    <span class="big">STORE</span>
+    <span>実店舗 — 東京</span>
+  </header>
+  <a class="cta rv" href="../store.html"><span data-scramble>VISIT STORE</span> <span class="arr">→</span></a>
+  <div class="addr rv">
+    <div><b>ASEED TOKYO 「白い部屋」</b>東京都渋谷区神宮前 4-04-04<br>OPEN 12:00 — 20:00 / 木曜定休</div>
+    <div><b>ONLINE</b>常設 — 24 HOURS<br><a href="../index.html" data-scramble>EC TEMPLE →</a></div>
+  </div>
+</section>
+
+<!-- 05 FOOTER -->
+<footer data-sec="COLOPHON">
+  <div class="fourstitch" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="frow">
+    <span>aseed — 標本 no.4</span>
+    <ul>
+      <li><a href="../about.html" data-scramble>ABOUT</a></li>
+      <li><a href="#" data-scramble>PRIVACY</a></li>
+      <li><a href="#" data-scramble>TERMS</a></li>
+      <li><a href="#" data-scramble>INSTAGRAM</a></li>
+      <li><a href="#" data-scramble>X</a></li>
+    </ul>
+  </div>
+  <p class="c">© 2026 ASEED. WHITE AND BLACK ONLY. — この頁は生きている。</p>
+</footer>
+
+<script>
+(function(){'use strict';
+var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var TOUCH=window.matchMedia('(hover: none)').matches;
+
+/* ============ products ============ */
+var PRODUCTS=[
+ {img:'p01',jp:'再構築トレンチ',en:'RECONSTRUCTED TRENCH',price:'¥118,800',code:'AS26-CT-001',mat:'コットンギャバジン',mix:'綿 100%'},
+ {img:'p04',jp:'未仕上げシャツ',en:'RAW-HEM SHIRT',price:'¥52,800',code:'AS26-SH-004',mat:'タイプライタークロス',mix:'綿 100%'},
+ {img:'p07',jp:'解体ジャケット',en:'DECONSTRUCTED JACKET',price:'¥96,800',code:'AS26-JK-007',mat:'ウールサージ',mix:'毛 90% ナイロン 10%'},
+ {img:'p10',jp:'標本ニット',en:'SPECIMEN KNIT',price:'¥86,900',code:'AS26-KN-010',mat:'ラムズウール 7G',mix:'毛 100%'},
+ {img:'p13',jp:'定点Tシャツ',en:'FIXED-POINT TEE',price:'¥28,600',code:'AS26-TS-013',mat:'天竺 — 度詰め',mix:'綿 100%'},
+ {img:'p16',jp:'広幅トラウザー',en:'WIDE TROUSERS',price:'¥69,300',code:'AS26-TR-016',mat:'二重織ウール',mix:'毛 100%'},
+ {img:'p19',jp:'白衣コート',en:'LABORATORY COAT',price:'¥132,000',code:'AS26-CT-019',mat:'高密度コットン',mix:'綿 98% PU 2%'},
+ {img:'p22',jp:'灰色パーカ',en:'GREYSCALE HOODIE',price:'¥46,200',code:'AS26-SW-022',mat:'裏毛 — 吊り編み',mix:'綿 100%'}
+];
+var grid=document.getElementById('grid');
+var html='';
+PRODUCTS.forEach(function(p,i){
+  var no=('0'+(i+1)).slice(-2);
+  html+='<a class="card" href="../product.html">'
+    +'<span class="no"><span>NO.'+no+'</span><span>'+p.code+'</span></span>'
+    +'<span class="flip"><span class="face front"><img src="../assets/img/'+p.img+'.svg" alt="'+p.jp+'" loading="lazy" width="600" height="800"></span>'
+    +'<span class="face back"><span><table><tr><th>品番</th><td>'+p.code+'</td></tr>'
+    +'<tr><th>素材</th><td>'+p.mat+'</td></tr>'
+    +'<tr><th>混率</th><td>'+p.mix+'</td></tr>'
+    +'<tr><th>原産</th><td>日本製</td></tr>'
+    +'<tr><th>寸法</th><td>1 / 2 / 3</td></tr></table></span>'
+    +'<span><span class="bcode"></span><span class="bnum">'+p.code+' — ASEED</span></span></span></span>'
+    +'<span class="cap"><span class="nm">'+p.jp+'<small>'+p.en+'</small></span>'
+    +'<span class="price" data-odo="'+p.price+'">'+p.price+'</span></span></a>';
+});
+grid.innerHTML=html;
+
+/* ============ odometer prices ============ */
+function buildOdo(el){
+  var txt=el.getAttribute('data-odo');el.textContent='';
+  var digits=[];
+  for(var i=0;i<txt.length;i++){
+    var ch=txt[i];
+    if(ch>='0'&&ch<='9'){
+      var d=document.createElement('span');d.className='odo-d';
+      var s=document.createElement('i');var col='';
+      for(var n=0;n<=9;n++){col+=n+'<br>';}
+      s.innerHTML='0123456789'.split('').join('<br>');
+      d.appendChild(s);el.appendChild(d);
+      digits.push({strip:s,val:+ch});
+    }else{
+      el.appendChild(document.createTextNode(ch));
+    }
+  }
+  el._digits=digits;
+}
+function rollOdo(el){
+  if(!el._digits)return;
+  el._digits.forEach(function(d,i){
+    d.strip.style.transitionDelay=(i*90)+'ms';
+    d.strip.style.transform='translateY(-'+d.val+'em)';
+  });
+}
+var odos=[].slice.call(document.querySelectorAll('[data-odo]'));
+if(!RM){odos.forEach(buildOdo);}
+
+/* ============ text scramble ============ */
+var CHARS='ASEED*+-/010101アセエド標本白黒##';
+function scramble(el){
+  if(RM)return;
+  var orig=el._orig||(el._orig=el.textContent);
+  if(!el._w){el._w=1;el.style.minWidth=el.offsetWidth+'px';}
+  if(el._t)clearInterval(el._t);
+  var frame=0,total=Math.max(10,orig.length*2);
+  el._t=setInterval(function(){
+    frame++;
+    var done=Math.floor(orig.length*frame/total),out='';
+    for(var i=0;i<orig.length;i++){
+      if(orig[i]===' '){out+=' ';}
+      else if(i<done){out+=orig[i];}
+      else{out+=CHARS[Math.random()*CHARS.length|0];}
+    }
+    el.textContent=out;
+    if(frame>=total){el.textContent=orig;clearInterval(el._t);el._t=null;}
+  },28);
+}
+[].slice.call(document.querySelectorAll('[data-scramble]')).forEach(function(el){
+  el.addEventListener('mouseenter',function(){scramble(el);},{passive:true});
+  el.addEventListener('focus',function(){scramble(el);},{passive:true});
+});
+
+/* ============ cursor ============ */
+var cursor=document.getElementById('cursor'),cx=-100,cy=-100,tx=-100,ty=-100;
+if(!RM&&!TOUCH){
+  document.addEventListener('mousemove',function(e){tx=e.clientX;ty=e.clientY;},{passive:true});
+  document.addEventListener('mouseover',function(e){
+    cursor.classList.toggle('big',!!(e.target.closest&&e.target.closest('a,button,.card')));
+  },{passive:true});
+}
+
+/* ============ hero letter repulsion (spring) ============ */
+var letters=[].slice.call(document.querySelectorAll('#word .ltr')).map(function(el){
+  return{el:el,x:0,y:0,vx:0,vy:0,bx:0,by:0,r:0};
+});
+var mouseX=-9999,mouseY=-9999;
+document.addEventListener('mousemove',function(e){mouseX=e.clientX;mouseY=e.clientY;},{passive:true});
+function measureLetters(){
+  letters.forEach(function(L){
+    L.el.style.transform='none';
+    var r=L.el.getBoundingClientRect();
+    L.bx=r.left+r.width/2+window.scrollX;
+    L.by=r.top+r.height/2+window.scrollY;
+    L.rad=Math.max(r.width,r.height)*1.35;
+  });
+}
+
+/* ============ sections / scroll state ============ */
+var secs=[].slice.call(document.querySelectorAll('[data-sec]'));
+var wipes=[].slice.call(document.querySelectorAll('.wipe'));
+var secTops=[],docH=1;
+function measure(){
+  secTops=secs.map(function(s){return s.offsetTop;});
+  wipes.forEach(function(w){w._top=w.offsetTop;});
+  docH=document.documentElement.scrollHeight-window.innerHeight;
+  measureLetters();
+}
+/* clip-path zeroes the IO intersection box in Chromium, so wipes fire from scroll math */
+function openWipe(w){
+  if(w._open)return;w._open=true;
+  w.classList.add('on');
+  setTimeout(function(){
+    [].slice.call(w.querySelectorAll('.rv')).forEach(function(r){r.classList.add('on');});
+  },350);
+}
+var cnum=document.getElementById('cnum'),cname=document.getElementById('cname');
+var thread=document.getElementById('thread'),needle=document.getElementById('needle');
+var active=-1;
+function setActive(i){
+  if(i===active)return;active=i;
+  cnum.textContent='0'+(i+1)+' / 0'+secs.length;
+  cname.textContent=secs[i].getAttribute('data-sec');
+  if(!RM){scramble(cname);}
+}
+
+/* ============ marquee ============ */
+var mtrack=document.getElementById('mtrack'),mpos=0,mvel=-0.6,mtarget=-0.6,halfW=1;
+function measureMarquee(){halfW=mtrack.scrollWidth/2||1;}
+
+/* ============ main rAF loop ============ */
+var lastY=-1;
+function loop(){
+  /* scroll-driven */
+  var y=window.scrollY||window.pageYOffset;
+  var p=docH>0?Math.min(1,Math.max(0,y/docH)):0;
+  if(y!==lastY){
+    lastY=y;
+    thread.style.clipPath='inset(0 0 '+((1-p)*100).toFixed(3)+'% 0)';
+    needle.style.transform='translateY('+(p*(window.innerHeight-9)).toFixed(1)+'px)';
+    for(var k=0;k<wipes.length;k++){
+      if(!wipes[k]._open&&y+window.innerHeight*0.88>wipes[k]._top){openWipe(wipes[k]);}
+    }
+    var mid=y+window.innerHeight*0.5,idx=0;
+    for(var i=0;i<secTops.length;i++){if(mid>=secTops[i])idx=i;}
+    setActive(idx);
+    mtarget=(idx%2===0)?-0.6:0.6;
+  }
+  if(!RM){
+    /* marquee */
+    mvel+=(mtarget-mvel)*0.035;
+    mpos+=mvel;
+    var w=halfW;var m=((mpos%w)+w)%w; /* 0..w */
+    mtrack.style.transform='translate3d('+(-m).toFixed(2)+'px,0,0)';
+    /* cursor */
+    cx+=(tx-cx)*0.22;cy+=(ty-cy)*0.22;
+    cursor.style.transform='translate('+(cx-cursor.offsetWidth/2).toFixed(1)+'px,'+(cy-cursor.offsetHeight/2).toFixed(1)+'px)';
+    /* letters */
+    for(var j=0;j<letters.length;j++){
+      var L=letters[j];
+      var lx=L.bx-window.scrollX,ly=L.by-window.scrollY;
+      var dx=lx-mouseX,dy=ly-mouseY;
+      var d=Math.sqrt(dx*dx+dy*dy)||1;
+      var txx=0,tyy=0;
+      if(d<L.rad){
+        var f=(1-d/L.rad);f=f*f*62;
+        txx=dx/d*f;tyy=dy/d*f;
+      }
+      L.vx+=(txx-L.x)*0.1;L.vy+=(tyy-L.y)*0.1;
+      L.vx*=0.85;L.vy*=0.85;
+      L.x+=L.vx;L.y+=L.vy;
+      if(Math.abs(L.x)>0.01||Math.abs(L.y)>0.01||Math.abs(L.vx)>0.01){
+        L.el.style.transform='translate3d('+L.x.toFixed(2)+'px,'+L.y.toFixed(2)+'px,0) rotate('+(L.x*0.055).toFixed(2)+'deg)';
+      }
+    }
+  }
+  requestAnimationFrame(loop);
+}
+
+/* ============ reveals / wipes / odo triggers ============ */
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(en){
+    if(en.isIntersecting){
+      en.target.classList.add('on');
+      if(en.target._odoKids){en.target._odoKids.forEach(rollOdo);en.target._odoKids=null;}
+      io.unobserve(en.target);
+    }
+  });
+},{threshold:0.08});
+[].slice.call(document.querySelectorAll('.wipe,.rv')).forEach(function(el){io.observe(el);});
+if(!RM){
+  var oio=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){rollOdo(en.target);oio.unobserve(en.target);}
+    });
+  },{threshold:0.4});
+  odos.forEach(function(o){oio.observe(o);});
+}
+
+/* ============ init ============ */
+window.addEventListener('resize',function(){measure();measureMarquee();},{passive:true});
+window.addEventListener('load',function(){measure();measureMarquee();},{passive:true});
+measure();measureMarquee();
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
