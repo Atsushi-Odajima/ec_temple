@@ -13,6 +13,19 @@
    ========================================================================== */
 
 /* ----------------------------------------------------------------------------
+   0. Display face — Jost (OFL licence), a Futura-family geometric sans.
+      Classical, thin, CELINE-adjacent without copying. Bundled locally.
+   ------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../assets/fonts/jost-latin.woff2") format("woff2");
+}
+
+/* ----------------------------------------------------------------------------
    1. Design tokens
    ------------------------------------------------------------------------- */
 
@@ -27,6 +40,10 @@
   --black: #000000;
   --font-sans: "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic ProN",
                "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+  /* classical thin geometric display face (CELINE-adjacent, not identical):
+     bundled Jost first, then Apple's Avenir Next / Futura as fallbacks */
+  --font-display: "Jost", "Avenir Next", Futura, "Century Gothic",
+                  "Trebuchet MS", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --tracking-wide: 0.18em;
   --tracking-xwide: 0.32em;
   --maxw: 1280px;
@@ -893,4 +910,24 @@ main {
     opacity: 1;
     transform: none;
   }
+}
+
+/* ==========================================================================
+   Display typography — classical thin wordmark & display titles
+   ========================================================================== */
+
+.brand-mark,
+.footer-brand,
+.home-hero__wordmark,
+.home-marquee__seg,
+.home-shead__big,
+.store-title,
+.cart-title,
+.maison-title,
+.maison-marquee__track,
+.product-name,
+.notfound-title,
+.atelier-year,
+.plate-num {
+  font-family: var(--font-display);
 }
