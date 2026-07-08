@@ -1,381 +1,534 @@
 /* ==========================================================================
-   aseed — home.css (Agent HOME)
+   aseed — home.css (Agent HOME) — SPECIMEN redesign
    Page-specific styles for index.html only.
-   Depends on css/style.css design tokens (§2 of DESIGN_SPEC).
+   White ground: sections stay transparent so the fixed ink canvas
+   (js/ink.js, z-index:-1) breathes behind everything. Only card faces
+   use var(--paper-warm) / var(--ink).
+   Depends on css/style.css tokens + SPECIMEN components
+   (.k-letter, .outline-text, .spec-card*, .odo*, .reveal).
    ========================================================================== */
 
+.home {
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+               "Courier New", monospace;
+  overflow-x: hidden; /* kinetic letters + marquee may poke past the edge */
+}
+
 /* --------------------------------------------------------------------------
-   Shared section scaffolding
+   Section head — hairline rule with mono annotation (type-specimen ledger)
    -------------------------------------------------------------------------- */
 
-.home-section-inner {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding-left: 24px;
-  padding-right: 24px;
+.home-shead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
 }
 
-@media (min-width: 1024px) {
-  .home-section-inner {
-    padding-left: 64px;
-    padding-right: 64px;
-  }
+.home-shead__big {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 40px);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: var(--ink);
 }
 
-.home-section-title {
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: var(--tracking-xwide);
-  text-transform: uppercase;
+.home-shead__meta {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
   color: var(--ink-mute);
-  text-align: center;
-  margin: 0 0 64px;
-}
-
-@media (min-width: 1024px) {
-  .home-section-title {
-    margin-bottom: 96px;
-  }
-}
-
-.home-section-title--light {
-  color: var(--ink-mute);
+  white-space: nowrap;
 }
 
 /* --------------------------------------------------------------------------
-   HERO — 100vh black, wordmark, caption, stitches, scroll cue
+   01 HERO — near-empty white viewport; ink canvas is the hero image
    -------------------------------------------------------------------------- */
 
 .home-hero {
   position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
-  background: var(--black);
-  color: var(--paper);
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  text-align: center;
+  padding: 48px 24px 120px;
+  overflow: visible;
 }
 
-.home-hero__inner {
-  text-align: center;
-  padding: 0 24px;
+.home-hero__meta {
+  margin: 0 0 4.5vh;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  color: var(--ink-soft);
+  animation: home-fade 1.6s var(--ease) 0.5s both;
 }
 
 .home-hero__wordmark {
   margin: 0;
-  font-family: var(--font-sans);
-  font-size: clamp(48px, 10vw, 140px);
+  font-size: clamp(84px, 17vw, 250px);
   font-weight: 300;
-  line-height: 1.1;
-  color: var(--white);
-  letter-spacing: var(--tracking-xwide);
-  /* keep optical centering despite trailing letter-space */
-  padding-left: var(--tracking-xwide);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
   text-transform: lowercase;
-  animation: hero-wordmark-in 2.4s var(--ease) both;
+  color: var(--ink);
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  animation: home-word-in 1.8s var(--ease) both;
 }
 
-.home-hero__caption {
-  margin: 28px 0 0;
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: var(--tracking-wide);
-  color: #9a9a9a;
-  text-transform: uppercase;
-  animation: hero-fade-in 1.8s var(--ease) 0.9s both;
+/* one specimen letter set in outline — the second “e” (4th glyph).
+   .k-letter spans exist only once specimen.js splits the word. */
+.home-hero__wordmark .k-letter:nth-child(4) {
+  -webkit-text-stroke: 2px var(--ink);
+  color: transparent;
 }
 
-/* four-stitch motif, white, below caption */
-.home-hero__stitches {
-  display: inline-grid;
-  grid-template-columns: repeat(2, auto);
-  gap: 6px;
-  margin-top: 44px;
-  color: var(--white);
-  animation: hero-fade-in 1.8s var(--ease) 1.4s both;
+/* Margiela number strip 0–23, one circled */
+.home-hero__numstrip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 640px;
+  margin-top: 7vh;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink);
+  animation: home-fade 1.6s var(--ease) 1s both;
 }
 
-.home-hero__stitches i {
-  display: block;
-  width: 1px;
-  height: 10px;
-  background: currentColor;
+.home-hero__numstrip span {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.42;
 }
 
-/* scroll cue */
+.home-hero__numstrip span.is-ring {
+  opacity: 1;
+  border: 1px solid currentColor;
+  border-radius: 50%; /* deliberate exception: the circled specimen number */
+}
+
+/* scroll cue — stitch drips down */
 .home-hero__scrollcue {
   position: absolute;
+  bottom: 26px;
   left: 50%;
-  bottom: 0;
   transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  animation: hero-fade-in 1.8s var(--ease) 2s both;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  color: var(--ink-mute);
+  animation: home-fade 1.6s var(--ease) 1.6s both;
 }
 
-.home-hero__scrolltext {
-  font-size: 10px;
-  letter-spacing: var(--tracking-wide);
-  color: #9a9a9a;
-  text-transform: uppercase;
-}
-
-.home-hero__scrollline {
+.home-hero__scrollcue::after {
+  content: "";
   display: block;
   width: 1px;
-  height: 64px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
-  overflow: hidden;
-  position: relative;
+  height: 40px;
+  margin: 10px auto 0;
+  background: repeating-linear-gradient(to bottom, currentColor 0 4px, transparent 4px 8px);
+  animation: home-sew 1.7s var(--ease) infinite;
 }
 
-.home-hero__scrollline::after {
-  content: "";
-  position: absolute;
-  top: -100%;
-  left: 0;
-  width: 1px;
-  height: 100%;
-  background: var(--white);
-  animation: scroll-drip 2.6s var(--ease) 2.4s infinite;
+@keyframes home-word-in {
+  0%   { opacity: 0; transform: translateY(14px); filter: blur(3px); }
+  100% { opacity: 1; transform: none; filter: blur(0); }
 }
 
-/* load animations (CSS only) */
-@keyframes hero-wordmark-in {
-  0% {
-    opacity: 0;
-    letter-spacing: 0.6em;
-    filter: blur(2px);
-  }
-  100% {
-    opacity: 1;
-    letter-spacing: var(--tracking-xwide);
-    filter: blur(0);
-  }
-}
-
-@keyframes hero-fade-in {
+@keyframes home-fade {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-@keyframes scroll-drip {
-  0%   { top: -100%; }
-  60%  { top: 100%; }
-  100% { top: 100%; }
+@keyframes home-sew {
+  0%   { clip-path: inset(0 0 100% 0); }
+  55%  { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(100% 0 0 0); }
 }
 
 /* --------------------------------------------------------------------------
-   COLLECTION — 3 featured items
+   02 COLLECTION — three .spec-card flip specimens
    -------------------------------------------------------------------------- */
 
 .home-collection {
-  padding: 120px 0;
-  background: var(--paper);
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 15vh 24px 12vh;
 }
 
-@media (min-width: 1024px) {
-  .home-collection {
-    padding: 180px 0;
-  }
-}
-
-.home-collection__grid {
+.home-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 56px;
+  gap: 64px;
+  margin-top: 56px;
 }
 
-@media (min-width: 640px) {
-  .home-collection__grid {
+@media (min-width: 680px) {
+  .home-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
   }
 }
 
 @media (min-width: 1024px) {
-  .home-collection__grid {
+  .home-grid {
     gap: 48px;
   }
 }
 
-.home-item {
-  display: block;
-  text-decoration: none;
-  color: var(--ink);
+.home-card__no {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 12px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: var(--ink-mute);
 }
 
-.home-item__media {
+/* flip faces */
+.home-card__front {
   display: block;
-  background: var(--paper-warm);
   aspect-ratio: 3 / 4;
+  background: var(--paper-warm);
   overflow: hidden;
 }
 
-.home-item__media img {
-  display: block;
+.home-card__front img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s var(--ease), opacity 0.3s var(--ease);
+  filter: grayscale(1);
 }
 
-.home-item:hover .home-item__media img,
-.home-item:focus-visible .home-item__media img {
-  transform: scale(1.03);
+.home-card__back {
+  overflow: hidden;
 }
 
-.home-item__caption {
+.home-card__back dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 14px;
+  row-gap: 0;
+  align-content: start;
+}
+
+.home-card__back dt {
+  padding: 8px 0 7px;
+  border-bottom: 1px solid rgba(250, 250, 250, 0.16);
+  white-space: nowrap;
+}
+
+.home-card__back dd {
+  margin: 0;
+  padding: 8px 0 7px;
+  border-bottom: 1px solid rgba(250, 250, 250, 0.16);
+}
+
+/* barcode motif at the bottom of the spec sheet */
+.home-card__bcode {
+  display: block;
+  height: 24px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--paper) 0 2px, transparent 2px 5px,
+    var(--paper) 5px 6px, transparent 6px 11px
+  );
+  opacity: 0.9;
+}
+
+.home-card__bnum {
+  display: block;
+  margin-top: 6px;
+  font-size: 8px;
+  letter-spacing: 0.4em;
+  color: var(--ink-mute);
+}
+
+.home-card__foot {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding-top: 16px;
-  text-align: center;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: 18px 0 0;
 }
 
-.home-item__name {
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  transition: color 0.3s var(--ease);
+.home-card__stitches {
+  display: inline-grid;
+  grid-template-columns: repeat(4, 1px);
+  gap: 7px;
 }
 
-.home-item:hover .home-item__name {
-  color: var(--ink-mute);
+.home-card__stitches i {
+  width: 1px;
+  height: 11px;
+  background: var(--paper);
 }
 
-.home-item__price {
-  font-size: 12px;
-  color: var(--ink-mute);
-  letter-spacing: 0.06em;
-}
-
-/* --------------------------------------------------------------------------
-   MAISON — inverted black band
-   -------------------------------------------------------------------------- */
-
-.home-maison {
-  padding: 140px 0;
-  background: var(--black);
+.home-card__view {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
   color: var(--paper);
-  text-align: center;
+  border-bottom: 1px solid rgba(250, 250, 250, 0.5);
+  padding-bottom: 3px;
 }
 
-@media (min-width: 1024px) {
-  .home-maison {
-    padding: 200px 0;
+.home-card__view:hover,
+.home-card__view:focus-visible {
+  border-bottom-color: var(--paper);
+}
+
+/* compact spec sheet while the 3-col grid is still narrow */
+@media (min-width: 680px) and (max-width: 999px) {
+  .home-card__back {
+    font-size: 10px;
+    padding: 12px;
+    line-height: 1.6;
+  }
+  .home-card__back dt,
+  .home-card__back dd {
+    padding: 5px 0 4px;
+  }
+  .home-card__back dl {
+    column-gap: 10px;
+  }
+  .home-card__bcode {
+    height: 14px;
+  }
+  .home-card__bnum {
+    display: none;
+  }
+  .home-card__foot {
+    margin-top: 10px;
   }
 }
 
-.home-maison__line {
+/* caption under the flip */
+.home-card__cap {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
   margin: 0;
-  font-size: clamp(18px, 3.4vw, 30px);
-  font-weight: 300;
+  padding-top: 14px;
+}
+
+.home-card__name {
+  font-size: 12px;
+  font-weight: 400;
   letter-spacing: 0.14em;
-  line-height: 2;
-  color: var(--paper);
-}
-
-.home-maison__link {
-  display: inline-block;
-  margin-top: 56px;
-  font-size: 11px;
-  letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: var(--paper);
-  text-decoration: none;
-  border-bottom: 1px solid var(--paper);
-  padding-bottom: 6px;
-  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+  color: var(--ink);
 }
 
-.home-maison__link:hover,
-.home-maison__link:focus-visible {
-  color: #9a9a9a;
-  border-color: #9a9a9a;
+.home-card__price {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+/* “all specimens” ledger line */
+.home-collection__more {
+  margin: 72px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  text-align: right;
+}
+
+.home-collection__more a {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--ink);
+}
+
+.home-collection__more a:hover,
+.home-collection__more a:focus-visible {
+  color: var(--ink-mute);
 }
 
 /* --------------------------------------------------------------------------
-   ONLINE STORE — full-width CTA band
+   Outlined-type marquee — transparent band, ink blooms show through strokes
+   -------------------------------------------------------------------------- */
+
+.home-marquee {
+  overflow: hidden;
+  padding: 9vh 0;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.home-marquee__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: home-marquee 70s linear infinite;
+}
+
+.home-marquee__seg {
+  display: block;
+  white-space: nowrap;
+  font-size: clamp(96px, 17vw, 260px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(17, 17, 17, 0.85);
+}
+
+@keyframes home-marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* --------------------------------------------------------------------------
+   03 ONLINE STORE — one huge scramble CTA, generous whitespace
    -------------------------------------------------------------------------- */
 
 .home-store {
-  padding: 120px 0 140px;
-  background: var(--paper);
-  text-align: center;
-  border-bottom: 1px solid var(--line);
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 12vh 24px 16vh;
 }
 
-@media (min-width: 1024px) {
-  .home-store {
-    padding: 180px 0 200px;
-  }
+.home-store__ctarow {
+  margin: 9vh 0 0;
 }
 
 .home-store__cta {
-  display: block;
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 26px 24px;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: var(--tracking-xwide);
-  text-transform: uppercase;
-  text-align: center;
+  display: inline-block;
+  font-size: clamp(42px, 8.5vw, 128px);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
   color: var(--ink);
-  text-decoration: none;
-  border: 1px solid var(--ink);
-  background: transparent;
-  transition: background 0.3s var(--ease), color 0.3s var(--ease);
 }
 
 .home-store__cta:hover,
 .home-store__cta:focus-visible {
-  background: var(--ink);
-  color: var(--paper);
+  color: var(--ink);
+}
+
+.home-store__arr {
+  display: inline-block;
+  transition: transform 0.5s var(--ease);
+}
+
+.home-store__cta:hover .home-store__arr,
+.home-store__cta:focus-visible .home-store__arr {
+  transform: translateX(0.3em);
 }
 
 /* --------------------------------------------------------------------------
-   Reveal-on-scroll (IntersectionObserver adds .is-visible)
-   Degrades gracefully: without JS, content stays visible via the
-   no-JS fallback in the inline script; without IO, .is-visible is
-   added immediately.
+   04 MAISON — small mono ledger row
    -------------------------------------------------------------------------- */
 
-/* hidden state only applies once JS tags the root with .has-reveal,
-   so content is fully visible when JavaScript is disabled */
-html.has-reveal .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+.home-maison {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 24px 18vh;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-html.has-reveal .reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+.home-maison__link,
+.home-maison__meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
 }
 
-/* staggered children inside the collection grid */
-.home-collection__grid .reveal:nth-child(2) { transition-delay: 0.12s; }
-.home-collection__grid .reveal:nth-child(3) { transition-delay: 0.24s; }
+.home-maison__link {
+  color: var(--ink);
+  border-top: 1px solid var(--ink);
+  padding-top: 14px;
+}
 
-/* honor reduced-motion: no animation, everything visible */
-@media (prefers-reduced-motion: reduce) {
-  .home-hero__wordmark,
-  .home-hero__caption,
-  .home-hero__stitches,
-  .home-hero__scrollcue,
-  .home-hero__scrollline::after {
-    animation: none;
+.home-maison__link:hover,
+.home-maison__link:focus-visible {
+  color: var(--ink-mute);
+}
+
+.home-maison__meta {
+  color: var(--ink-mute);
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  flex: 1;
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   Wide screens — align section gutters with the header (64px)
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 1024px) {
+  .home-collection,
+  .home-store {
+    padding-left: 64px;
+    padding-right: 64px;
   }
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  .home-maison {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Small screens
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 480px) {
+  .home-hero__numstrip {
+    max-width: 312px; /* 12 cells per row */
+  }
+  .home-shead {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .home-maison {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .home-maison__meta {
+    text-align: left;
+    flex: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion — everything legible and still
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__meta,
+  .home-hero__wordmark,
+  .home-hero__numstrip,
+  .home-hero__scrollcue,
+  .home-hero__scrollcue::after,
+  .home-marquee__track {
+    animation: none;
   }
 }

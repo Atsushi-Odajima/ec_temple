@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>aseed — HOME</title>
-<meta name="description" content="aseed — collection 2026. deconstructed basics.">
+<meta name="description" content="aseed — A/W 2026 TYPE SPECIMEN. deconstructed basics.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='22' font-family='Helvetica' font-size='18' fill='%23fff' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
 
-<header class="site-header site-header--transparent" id="siteHeader">
+<header class="site-header" id="siteHeader">
   <div class="header-inner">
     <button class="menu-toggle" id="menuToggle" aria-label="メニュー" aria-expanded="false">
       <span></span><span></span>
@@ -19,9 +19,9 @@
     <a class="brand-mark" href="index.html">aseed</a>
     <nav class="site-nav" id="siteNav" aria-label="メイン">
       <ul>
-        <li><a href="index.html">HOME</a></li>
-        <li><a href="about.html">MAISON</a></li>
-        <li><a href="store.html">ONLINE STORE</a></li>
+        <li><a href="index.html" data-scramble>HOME</a></li>
+        <li><a href="about.html" data-scramble>MAISON</a></li>
+        <li><a href="store.html" data-scramble>ONLINE STORE</a></li>
       </ul>
     </nav>
     <div class="header-tools">
@@ -32,72 +32,144 @@
   </div>
 </header>
 
-<main>
+<main class="home">
 
-  <!-- HERO -->
-  <section class="home-hero" aria-label="aseed">
-    <div class="home-hero__inner">
-      <h1 class="home-hero__wordmark">aseed</h1>
-      <p class="home-hero__caption">COLLECTION 2026 — DECONSTRUCTED BASICS</p>
-      <div class="home-hero__stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <!-- 01 HERO — near-empty white viewport; the ink canvas is the image -->
+  <section class="home-hero" aria-label="aseed — A/W 2026 TYPE SPECIMEN">
+    <p class="home-hero__meta">A/W 2026 — TYPE SPECIMEN</p>
+    <h1 class="home-hero__wordmark" data-kinetic>aseed</h1>
+    <div class="home-hero__numstrip" aria-hidden="true">
+      <span>0</span><span>1</span><span>2</span><span>3</span><span class="is-ring">4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span>
     </div>
-    <div class="home-hero__scrollcue" aria-hidden="true">
-      <span class="home-hero__scrolltext">SCROLL</span>
-      <span class="home-hero__scrollline"></span>
-    </div>
+    <p class="home-hero__scrollcue" aria-hidden="true">SCROLL</p>
   </section>
 
-  <!-- COLLECTION -->
-  <section class="home-collection reveal" aria-labelledby="collectionTitle">
-    <div class="home-section-inner">
-      <h2 class="home-section-title" id="collectionTitle">COLLECTION</h2>
-      <div class="home-collection__grid">
-        <a class="home-item reveal" href="product.html?id=as-001">
-          <span class="home-item__media">
-            <img src="assets/img/p01.svg" alt="RAW-EDGE WOOL COAT" loading="lazy" width="600" height="800">
-          </span>
-          <span class="home-item__caption">
-            <span class="home-item__name">RAW-EDGE WOOL COAT</span>
-            <span class="home-item__price">&yen;176,000</span>
-          </span>
-        </a>
-        <a class="home-item reveal" href="product.html?id=as-007">
-          <span class="home-item__media">
-            <img src="assets/img/p07.svg" alt="DRIVER'S KNIT ZIP-UP" loading="lazy" width="600" height="800">
-          </span>
-          <span class="home-item__caption">
-            <span class="home-item__name">DRIVER'S KNIT ZIP-UP</span>
-            <span class="home-item__price">&yen;52,800</span>
-          </span>
-        </a>
-        <a class="home-item reveal" href="product.html?id=as-013">
-          <span class="home-item__media">
-            <img src="assets/img/p13.svg" alt="HEAVY JERSEY TEE" loading="lazy" width="600" height="800">
-          </span>
-          <span class="home-item__caption">
-            <span class="home-item__name">HEAVY JERSEY TEE</span>
-            <span class="home-item__price">&yen;12,100</span>
-          </span>
-        </a>
-      </div>
+  <!-- 02 COLLECTION — three specimens -->
+  <section class="home-collection" aria-labelledby="collectionTitle">
+    <header class="home-shead reveal">
+      <h2 class="home-shead__big" id="collectionTitle">COLLECTION</h2>
+      <p class="home-shead__meta">01 — FEATURED / 3 OF 24</p>
+    </header>
+
+    <div class="home-grid">
+
+      <article class="spec-card home-card reveal" data-card-id="as-001">
+        <p class="home-card__no"><span>NO.01</span><span>AS-001 / LINE 0</span></p>
+        <div class="spec-card__inner home-card__flip">
+          <a class="spec-card__face home-card__front" href="product.html?id=as-001" aria-label="RAW-EDGE WOOL COAT — 商品詳細">
+            <img src="assets/img/p01.svg" alt="" loading="lazy" width="600" height="800">
+          </a>
+          <div class="spec-card__face spec-card__back home-card__back">
+            <dl>
+              <dt>品番</dt><dd>AS-001</dd>
+              <dt>LINE</dt><dd>LINE 0</dd>
+              <dt>MATERIAL</dt><dd data-card-material>WOOL 100%</dd>
+              <dt>ORIGIN</dt><dd>ATELIER, TOKYO</dd>
+            </dl>
+            <div class="home-card__backfoot">
+              <span class="home-card__bcode" aria-hidden="true"></span>
+              <span class="home-card__bnum" aria-hidden="true">AS-001 — ASEED</span>
+              <p class="home-card__foot">
+                <span class="home-card__stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                <a class="home-card__view" href="product.html?id=as-001">VIEW &rarr;</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <p class="home-card__cap">
+          <span class="home-card__name" data-card-name>RAW-EDGE WOOL COAT</span>
+          <span class="home-card__price" data-card-price>&yen;176,000</span>
+        </p>
+      </article>
+
+      <article class="spec-card home-card reveal" data-card-id="as-007">
+        <p class="home-card__no"><span>NO.07</span><span>AS-007 / LINE 4</span></p>
+        <div class="spec-card__inner home-card__flip">
+          <a class="spec-card__face home-card__front" href="product.html?id=as-007" aria-label="DRIVER'S KNIT ZIP-UP — 商品詳細">
+            <img src="assets/img/p07.svg" alt="" loading="lazy" width="600" height="800">
+          </a>
+          <div class="spec-card__face spec-card__back home-card__back">
+            <dl>
+              <dt>品番</dt><dd>AS-007</dd>
+              <dt>LINE</dt><dd>LINE 4</dd>
+              <dt>MATERIAL</dt><dd data-card-material>WOOL 100%</dd>
+              <dt>ORIGIN</dt><dd>ATELIER, TOKYO</dd>
+            </dl>
+            <div class="home-card__backfoot">
+              <span class="home-card__bcode" aria-hidden="true"></span>
+              <span class="home-card__bnum" aria-hidden="true">AS-007 — ASEED</span>
+              <p class="home-card__foot">
+                <span class="home-card__stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                <a class="home-card__view" href="product.html?id=as-007">VIEW &rarr;</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <p class="home-card__cap">
+          <span class="home-card__name" data-card-name>DRIVER'S KNIT ZIP-UP</span>
+          <span class="home-card__price" data-card-price>&yen;52,800</span>
+        </p>
+      </article>
+
+      <article class="spec-card home-card reveal" data-card-id="as-013">
+        <p class="home-card__no"><span>NO.13</span><span>AS-013 / LINE 1</span></p>
+        <div class="spec-card__inner home-card__flip">
+          <a class="spec-card__face home-card__front" href="product.html?id=as-013" aria-label="HEAVY JERSEY TEE — 商品詳細">
+            <img src="assets/img/p13.svg" alt="" loading="lazy" width="600" height="800">
+          </a>
+          <div class="spec-card__face spec-card__back home-card__back">
+            <dl>
+              <dt>品番</dt><dd>AS-013</dd>
+              <dt>LINE</dt><dd>LINE 1</dd>
+              <dt>MATERIAL</dt><dd data-card-material>COTTON 100%</dd>
+              <dt>ORIGIN</dt><dd>ATELIER, TOKYO</dd>
+            </dl>
+            <div class="home-card__backfoot">
+              <span class="home-card__bcode" aria-hidden="true"></span>
+              <span class="home-card__bnum" aria-hidden="true">AS-013 — ASEED</span>
+              <p class="home-card__foot">
+                <span class="home-card__stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                <a class="home-card__view" href="product.html?id=as-013">VIEW &rarr;</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <p class="home-card__cap">
+          <span class="home-card__name" data-card-name>HEAVY JERSEY TEE</span>
+          <span class="home-card__price" data-card-price>&yen;12,100</span>
+        </p>
+      </article>
+
     </div>
+
+    <p class="home-collection__more reveal">
+      <a href="store.html" data-scramble>ALL 24 SPECIMENS &rarr;</a>
+    </p>
   </section>
 
-  <!-- MAISON (inverted) -->
-  <section class="home-maison reveal" aria-labelledby="maisonTitle">
-    <div class="home-section-inner">
-      <h2 class="home-section-title home-section-title--light" id="maisonTitle">MAISON</h2>
-      <p class="home-maison__line">名前を消す。服だけが残る。</p>
-      <a class="home-maison__link" href="about.html">ABOUT THE MAISON &rarr;</a>
+  <!-- outlined-type marquee — transparent, ink shows through the strokes -->
+  <div class="home-marquee" aria-hidden="true">
+    <div class="home-marquee__track">
+      <span class="home-marquee__seg">aseed aseed aseed&nbsp;</span>
+      <span class="home-marquee__seg">aseed aseed aseed&nbsp;</span>
     </div>
+  </div>
+
+  <!-- 03 ONLINE STORE — one huge CTA -->
+  <section class="home-store" aria-labelledby="storeTitle">
+    <header class="home-shead reveal">
+      <h2 class="home-shead__big" id="storeTitle">ONLINE STORE</h2>
+      <p class="home-shead__meta">02 — OPEN / 24 HOURS</p>
+    </header>
+    <p class="home-store__ctarow reveal">
+      <a class="home-store__cta" href="store.html"><span data-scramble>ENTER STORE</span><span class="home-store__arr" aria-hidden="true">&nbsp;&rarr;</span></a>
+    </p>
   </section>
 
-  <!-- ONLINE STORE CTA -->
-  <section class="home-store reveal" aria-labelledby="storeTitle">
-    <div class="home-section-inner">
-      <h2 class="home-section-title" id="storeTitle">ONLINE STORE</h2>
-      <a class="home-store__cta" href="store.html">ENTER STORE</a>
-    </div>
+  <!-- 04 MAISON — one small mono row -->
+  <section class="home-maison reveal" aria-label="MAISON">
+    <a class="home-maison__link" href="about.html" data-scramble>MAISON — ABOUT &rarr;</a>
+    <span class="home-maison__meta">ATELIER, TOKYO</span>
   </section>
 
 </main>
@@ -107,10 +179,10 @@
     <div class="stitches" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <p class="footer-brand">aseed</p>
     <nav class="footer-nav" aria-label="フッター">
-      <a href="index.html">HOME</a>
-      <a href="about.html">MAISON</a>
-      <a href="store.html">ONLINE STORE</a>
-      <a href="cart.html">CART</a>
+      <a href="index.html" data-scramble>HOME</a>
+      <a href="about.html" data-scramble>MAISON</a>
+      <a href="store.html" data-scramble>ONLINE STORE</a>
+      <a href="cart.html" data-scramble>CART</a>
     </nav>
     <p class="footer-note">&copy; 2026 aseed. This is a concept store &mdash; orders are not fulfilled.</p>
   </div>
@@ -118,28 +190,71 @@
 
 <script src="js/products.js" defer></script>
 <script src="js/cart.js" defer></script>
-<script defer>
+<script src="js/ink.js" defer></script>
+<script src="js/specimen.js" defer></script>
+<script>
 (function () {
   "use strict";
-  var run = function () {
-    var targets = document.querySelectorAll(".reveal");
-    if (!targets.length) return;
-    if (!("IntersectionObserver" in window)) return; // stays visible without .has-reveal
-    document.documentElement.classList.add("has-reveal");
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
-    for (var j = 0; j < targets.length; j++) io.observe(targets[j]);
+
+  /* shared category → material map (SPECIMEN spec) */
+  var MATERIALS = {
+    outer: "WOOL 100%",
+    jacket: "WOOL 80% · NYLON 20%",
+    knit: "WOOL 100%",
+    shirt: "COTTON 100%",
+    cutsewn: "COTTON 100%",
+    pants: "WOOL 60% · POLYESTER 40%",
+    denim: "COTTON 100%",
+    bag: "COW LEATHER",
+    shoes: "CALF LEATHER",
+    accessory: "SILVER 925"
   };
+
+  function findProduct(id) {
+    var list = window.ASEED_PRODUCTS || [];
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id === id) return list[i];
+    }
+    return null;
+  }
+
+  function init() {
+    var cards = document.querySelectorAll(".home-card[data-card-id]");
+    var prices = [];
+
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      var p = findProduct(card.getAttribute("data-card-id"));
+      var nameEl = card.querySelector("[data-card-name]");
+      var priceEl = card.querySelector("[data-card-price]");
+      var matEl = card.querySelector("[data-card-material]");
+      if (p) {
+        /* live sync from ASEED_PRODUCTS (markup keeps matching fallback) */
+        if (nameEl) nameEl.textContent = p.name;
+        if (priceEl && window.aseedYen) priceEl.textContent = window.aseedYen(p.price);
+        if (matEl && MATERIALS[p.category]) matEl.textContent = MATERIALS[p.category];
+      }
+      if (priceEl) prices.push(priceEl);
+    }
+
+    /* roll prices once when they enter the viewport */
+    if (window.AseedFX && "IntersectionObserver" in window && prices.length) {
+      var io = new IntersectionObserver(function (entries) {
+        for (var j = 0; j < entries.length; j++) {
+          if (entries[j].isIntersecting) {
+            window.AseedFX.odometer(entries[j].target);
+            io.unobserve(entries[j].target);
+          }
+        }
+      }, { threshold: 0.6 });
+      for (var k = 0; k < prices.length; k++) io.observe(prices[k]);
+    }
+  }
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", run);
+    document.addEventListener("DOMContentLoaded", init);
   } else {
-    run();
+    init();
   }
 })();
 </script>
