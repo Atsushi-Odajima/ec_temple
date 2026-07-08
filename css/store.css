@@ -463,16 +463,10 @@
 }
 
 .p-stitch4 {
-  display: flex;
-  gap: 8px;
-  padding-bottom: 3px;
-}
-
-.p-stitch4 i {
-  display: block;
-  width: 1px;
-  height: 13px;
-  background: var(--paper);
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  color: var(--paper);
 }
 
 .p-view {

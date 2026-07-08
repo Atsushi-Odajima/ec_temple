@@ -72,7 +72,6 @@
   margin: 0 0 30px;
 }
 .cart-empty .stitches {
-  display: inline-grid;
   color: var(--ink-mute);
   margin-bottom: 30px;
 }
@@ -544,7 +543,6 @@
   margin: 0 0 26px;
 }
 .checkout-modal__panel .stitches {
-  display: inline-grid;
   color: var(--ink);
   margin-bottom: 24px;
 }
