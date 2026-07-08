@@ -1,13 +1,19 @@
 /* ============================================================
-   aseed — store.css (Agent STORE)
-   Page-specific styles for store.html (ONLINE STORE listing)
-   Uses design tokens from css/style.css only. Monochrome.
+   aseed — store.css (Agent STORE) · SPECIMEN redesign
+   ONLINE STORE listing: type-specimen head, hairline toolbar,
+   mono tag chips, .spec-card 3D flip product cards.
+   Shared flip/kinetic/odometer primitives live in css/style.css;
+   only page-level composition lives here. Monochrome — the ink
+   canvas (js/ink.js) provides all colour behind transparent
+   sections.
    ============================================================ */
 
 .store-page {
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+          "Courier New", monospace;
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 24px 120px;
+  padding: 0 24px 150px;
 }
 
 @media (min-width: 1024px) {
@@ -30,49 +36,88 @@
   border: 0;
 }
 
-/* ---------- Page head: title + live count ---------- */
+/* ---------- Page head: specimen title block ---------- */
 
 .store-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 56px 0 28px;
-  border-bottom: 1px solid var(--line);
+  padding: 64px 0 0;
 }
 
 @media (min-width: 768px) {
   .store-head {
-    padding-top: 88px;
+    padding-top: 96px;
   }
 }
 
-.store-title {
-  font-size: clamp(20px, 3.4vw, 30px);
-  font-weight: 300;
-  letter-spacing: var(--tracking-xwide);
-  color: var(--ink);
-  margin: 0;
+.store-eyebrow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 26px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--ink-mute);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
 }
 
-.store-count {
-  font-size: 11px;
-  letter-spacing: var(--tracking-wide);
-  color: var(--ink-mute);
-  margin: 0;
+.store-eyebrow-r {
   white-space: nowrap;
 }
 
-/* ---------- Sticky toolbar ---------- */
+.store-title {
+  margin: 0 0 18px -0.04em;
+  font-size: clamp(46px, 9.6vw, 124px);
+  font-weight: 200;
+  line-height: 0.96;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* kinetic split letters: keep the word-space from collapsing */
+.store-title .k-letter {
+  white-space: pre;
+}
+
+.store-count {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6em;
+  margin: 0 0 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.store-count::before {
+  content: "";
+  flex: 1 1 auto;
+  align-self: center;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 13px);
+}
+
+#storeCount {
+  color: var(--ink);
+}
+
+/* ---------- Hairline toolbar (sticky) ---------- */
 
 .store-toolbar {
   position: sticky;
   top: var(--header-h);
   z-index: 20;
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
   margin: 0 -24px;
   padding: 0 24px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(250, 250, 250, 0.78);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 @media (min-width: 1024px) {
@@ -85,37 +130,39 @@
 .store-toolbar-inner {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 16px;
-  padding: 12px 0;
+  align-items: stretch;
+  gap: 0 22px;
   max-width: var(--maxw);
   margin: 0 auto;
+  min-height: 50px;
 }
 
 .store-search {
-  flex: 1 1 200px;
+  flex: 1 1 220px;
   min-width: 140px;
+  display: flex;
+  align-items: center;
 }
 
 .store-search-input {
   width: 100%;
-  height: 40px;
-  padding: 0 12px;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  letter-spacing: var(--tracking-wide);
+  height: 50px;
+  padding: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
   color: var(--ink);
   background: transparent;
-  border: 1px solid var(--ink);
+  border: 0;
   border-radius: 0;
   appearance: none;
   -webkit-appearance: none;
-  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+  outline-offset: -2px;
 }
 
 .store-search-input::placeholder {
   color: var(--ink-mute);
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: 0.3em;
 }
 
 .store-search-input::-webkit-search-cancel-button {
@@ -124,20 +171,20 @@
 
 .store-tools {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: stretch;
   flex: 0 0 auto;
 }
 
 .store-sort {
-  height: 40px;
-  padding: 0 32px 0 12px;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  letter-spacing: 0.06em;
+  height: 50px;
+  padding: 0 30px 0 20px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
   color: var(--ink);
   background-color: transparent;
-  border: 1px solid var(--ink);
+  border: 0;
+  border-left: 1px solid var(--line);
   border-radius: 0;
   appearance: none;
   -webkit-appearance: none;
@@ -147,103 +194,111 @@
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 10px 6px;
-  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+  transition: opacity 0.3s var(--ease);
 }
 
 .store-sort:hover {
-  background-color: var(--paper-warm);
+  opacity: 0.6;
 }
 
 .fav-filter {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  height: 40px;
-  padding: 0 14px;
-  font-family: var(--font-sans);
-  font-size: 11px;
-  letter-spacing: var(--tracking-wide);
+  gap: 8px;
+  height: 50px;
+  padding: 0 4px 0 20px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.24em;
   color: var(--ink);
   background: transparent;
-  border: 1px solid var(--ink);
+  border: 0;
+  border-left: 1px solid var(--line);
   border-radius: 0;
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+  transition: opacity 0.3s var(--ease);
 }
 
 .fav-filter:hover {
-  background: var(--ink);
-  color: var(--white);
+  opacity: 0.6;
 }
 
 .fav-filter[aria-pressed="true"] {
+  opacity: 1;
+}
+
+.fav-filter[aria-pressed="true"] .fav-filter-heart {
   background: var(--ink);
-  color: var(--white);
+  color: var(--paper);
 }
 
 .fav-filter-heart {
-  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
   line-height: 1;
+  border: 1px solid var(--ink);
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
 }
 
-/* ---------- Category chips ---------- */
+/* ---------- Category chips: tiny mono tags ---------- */
 
 .store-cats {
-  margin: 20px 0 8px;
+  margin: 24px 0 0;
 }
 
 .store-cats-list {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 8px 8px;
   list-style: none;
   margin: 0;
-  padding: 2px 0 12px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.store-cats-list::-webkit-scrollbar {
-  display: none;
+  padding: 0;
 }
 
 .cat-chip {
   display: inline-block;
-  padding: 9px 18px;
-  font-family: var(--font-sans);
-  font-size: 11px;
-  letter-spacing: var(--tracking-wide);
-  color: var(--ink);
+  padding: 6px 13px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
   background: transparent;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--line);
   border-radius: 0;
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease),
+              background-color 0.3s var(--ease);
 }
 
 .cat-chip:hover {
-  background: var(--ink);
-  color: var(--white);
+  color: var(--ink);
+  border-color: var(--ink);
 }
 
 .cat-chip.is-active {
-  background: var(--black);
-  border-color: var(--black);
-  color: var(--white);
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
 }
 
 /* ---------- Product grid ---------- */
 
 .store-grid-wrap {
-  margin-top: 24px;
+  margin-top: 44px;
 }
 
 .store-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 40px 16px;
+  /* minmax(0,1fr): keep nowrap prices from widening the tracks */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 52px 18px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -251,28 +306,57 @@
 
 @media (min-width: 768px) {
   .store-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 56px 24px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 68px 26px;
   }
 }
 
 @media (min-width: 1200px) {
   .store-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 64px 28px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 76px 30px;
   }
 }
 
-/* ---------- Card ---------- */
+/* ---------- Card (SPECIMEN flip) ---------- */
 
 .p-card {
   position: relative;
+  animation: p-card-in 0.5s var(--ease) backwards;
+}
+
+@keyframes p-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
 }
 
 .p-card-link {
   display: block;
   color: var(--ink);
   text-decoration: none;
+}
+
+/* mono annotation above the flip — stays flat while the card spins */
+.p-card-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  height: 14px;
+  line-height: 14px;
+  margin-bottom: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  color: var(--ink-mute);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* FRONT face */
+.p-card-front {
+  display: block;
 }
 
 .p-card-media {
@@ -287,11 +371,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s var(--ease), opacity 0.3s var(--ease);
-}
-
-.p-card-link:hover .p-card-media img {
-  transform: scale(1.03);
 }
 
 .p-tag-new {
@@ -299,21 +378,132 @@
   top: 0;
   left: 0;
   z-index: 2;
-  padding: 5px 9px;
-  font-size: 10px;
-  letter-spacing: var(--tracking-wide);
-  background: var(--black);
-  color: var(--white);
+  padding: 5px 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-indent: 0.1em;
+  background: var(--ink);
+  color: var(--paper);
   line-height: 1;
 }
 
+.p-card-cap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 12px;
+  padding: 14px 2px 2px;
+}
+
+.p-card-name {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.p-card-name-ja {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  color: var(--ink-mute);
+}
+
+.p-card-price {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* odometer alignment: AseedFX.odometer translates reels by -n em,
+   so every row/window must be exactly 1em tall (style.css defaults
+   to 1.25em, which leaves digits misaligned) */
+.p-card-price.odo,
+.p-card-price .odo__static,
+.p-card-price .odo__col,
+.p-card-price .odo__reel span {
+  height: 1em;
+  line-height: 1em;
+}
+
+/* BACK face — mono spec sheet (base styles in css/style.css) */
+
+.p-back-no {
+  margin: 0 0 12px;
+  padding: 0 34px 10px 0; /* right inset keeps clear of the heart */
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  color: var(--ink-mute);
+  border-bottom: 1px solid rgba(250, 250, 250, 0.22);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.spec-card__back dd {
+  border-bottom: 1px solid rgba(250, 250, 250, 0.14);
+  padding-bottom: 8px;
+}
+
+.p-back-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.p-stitch4 {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 3px;
+}
+
+.p-stitch4 i {
+  display: block;
+  width: 1px;
+  height: 13px;
+  background: var(--paper);
+}
+
+.p-view {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--paper);
+  white-space: nowrap;
+}
+
+.p-view-arr {
+  display: inline-block;
+  letter-spacing: 0;
+  transition: transform 0.4s var(--ease);
+}
+
+.spec-card:hover .p-view-arr,
+.spec-card:focus-within .p-view-arr {
+  transform: translateX(5px);
+}
+
+/* favorite heart — sibling of the link, ABOVE the flip, never spins */
 .p-fav {
   position: absolute;
-  top: 6px;
+  top: 30px; /* meta row (14px) + its 10px margin + 6px inset */
   right: 6px;
   z-index: 3;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -333,60 +523,77 @@
   transform: scale(1.12);
 }
 
-.p-fav.is-active {
-  color: var(--black);
+/* the back sheet is ink — flip the heart to paper while flipped */
+.spec-card:hover .p-fav,
+.spec-card:focus-within .p-fav {
+  color: var(--paper);
 }
 
-.p-card-info {
-  padding: 12px 2px 0;
-}
-
-.p-card-brand {
-  margin: 0 0 4px;
-  font-size: 10px;
-  letter-spacing: var(--tracking-wide);
-  color: var(--ink-mute);
-}
-
-.p-card-name {
-  margin: 0 0 6px;
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  line-height: 1.5;
-  color: var(--ink);
-}
-
-.p-card-price {
-  margin: 0;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  color: var(--ink);
+.p-fav:focus-visible,
+.p-card-link:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
 }
 
 /* ---------- Empty state ---------- */
 
 .store-empty {
-  padding: 120px 0;
+  padding: 130px 0;
   text-align: center;
-  font-size: 13px;
-  letter-spacing: 0.1em;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: var(--ink-mute);
+}
+
+.store-empty::before {
+  content: "0 SPECIMENS";
+  display: block;
+  margin-bottom: 14px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.4em;
   color: var(--ink-mute);
 }
 
 /* ---------- Narrow screens ---------- */
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
   .store-toolbar-inner {
-    padding: 10px 0;
+    padding: 0;
+  }
+
+  .store-search {
+    flex: 1 1 100%;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .store-search-input,
+  .store-sort,
+  .fav-filter {
+    height: 44px;
   }
 
   .store-tools {
     flex: 1 1 100%;
+    justify-content: space-between;
   }
 
   .store-sort {
+    border-left: 0;
+    padding-left: 0;
     flex: 1 1 auto;
     min-width: 0;
+  }
+
+  .store-eyebrow span:last-child {
+    display: none;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .p-card {
+    animation: none;
   }
 }
