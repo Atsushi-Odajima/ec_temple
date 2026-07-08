@@ -76,9 +76,9 @@
 .home-hero__wordmark {
   margin: 0;
   font-size: clamp(84px, 17vw, 250px);
-  font-weight: 300;
+  font-weight: 200;
   line-height: 0.92;
-  letter-spacing: -0.035em;
+  letter-spacing: 0.04em;
   text-transform: lowercase;
   color: var(--ink);
   cursor: default;
@@ -92,34 +92,6 @@
 .home-hero__wordmark .k-letter:nth-child(4) {
   -webkit-text-stroke: 2px var(--ink);
   color: transparent;
-}
-
-/* Margiela number strip 0–23, one circled */
-.home-hero__numstrip {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: 640px;
-  margin-top: 7vh;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--ink);
-  animation: home-fade 1.6s var(--ease) 1s both;
-}
-
-.home-hero__numstrip span {
-  width: 26px;
-  height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.42;
-}
-
-.home-hero__numstrip span.is-ring {
-  opacity: 1;
-  border: 1px solid currentColor;
-  border-radius: 50%; /* deliberate exception: the circled specimen number */
 }
 
 /* scroll cue — stitch drips down */
@@ -389,7 +361,7 @@
   display: block;
   white-space: nowrap;
   font-size: clamp(96px, 17vw, 260px);
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1;
   letter-spacing: 0.02em;
   text-transform: lowercase;
@@ -501,9 +473,6 @@
    -------------------------------------------------------------------------- */
 
 @media (max-width: 480px) {
-  .home-hero__numstrip {
-    max-width: 312px; /* 12 cells per row */
-  }
   .home-shead {
     flex-direction: column;
     gap: 10px;
@@ -525,7 +494,6 @@
 @media (prefers-reduced-motion: reduce) {
   .home-hero__meta,
   .home-hero__wordmark,
-  .home-hero__numstrip,
   .home-hero__scrollcue,
   .home-hero__scrollcue::after,
   .home-marquee__track {
