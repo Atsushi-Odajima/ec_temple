@@ -13,16 +13,25 @@
    ========================================================================== */
 
 /* ----------------------------------------------------------------------------
-   0. Display face — Jost (OFL licence), a Futura-family geometric sans.
-      Classical, thin, CELINE-adjacent without copying. Bundled locally.
+   0. Display faces (both OFL licence, bundled locally):
+      Marcellus SC — Roman-inscription small caps, for UPPERCASE display text
+      Della Respira — classical serif with true lowercase, for lowercase text
    ------------------------------------------------------------------------- */
 
 @font-face {
-  font-family: "Jost";
+  font-family: "Marcellus SC";
   font-style: normal;
-  font-weight: 100 900;
+  font-weight: 400;
   font-display: swap;
-  src: url("../assets/fonts/jost-latin.woff2") format("woff2");
+  src: url("../assets/fonts/marcellus-sc.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Della Respira";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/della-respira.woff2") format("woff2");
 }
 
 /* ----------------------------------------------------------------------------
@@ -40,10 +49,9 @@
   --black: #000000;
   --font-sans: "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic ProN",
                "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
-  /* classical thin geometric display face (CELINE-adjacent, not identical):
-     bundled Jost first, then Apple's Avenir Next / Futura as fallbacks */
-  --font-display: "Jost", "Avenir Next", Futura, "Century Gothic",
-                  "Trebuchet MS", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* display pairing: Marcellus SC for uppercase, Della Respira for lowercase */
+  --font-display: "Marcellus SC", "Marcellus", Georgia, "Times New Roman", serif;
+  --font-display-lc: "Della Respira", Georgia, "Times New Roman", serif;
   --tracking-wide: 0.18em;
   --tracking-xwide: 0.32em;
   --maxw: 1280px;
@@ -902,21 +910,38 @@ main {
 }
 
 /* ==========================================================================
-   Display typography — classical thin wordmark & display titles
+   Display typography — the case pairing:
+   lowercase (wordmark, marquees)  → Della Respira
+   UPPERCASE (titles, nav, labels) → Marcellus SC
    ========================================================================== */
 
+/* lowercase voice */
 .brand-mark,
 .footer-brand,
 .home-hero__wordmark,
 .home-marquee__seg,
+.maison-marquee__track {
+  font-family: var(--font-display-lc);
+}
+
+/* uppercase voice */
 .home-shead__big,
 .store-title,
 .cart-title,
 .maison-title,
-.maison-marquee__track,
 .product-name,
 .notfound-title,
 .atelier-year,
-.plate-num {
+.plate-num,
+.home-card__name,
+.p-card-name,
+.rc-name,
+.site-nav a,
+.footer-nav a,
+.cart-link,
+.btn,
+.label,
+.eyebrow,
+.section-title {
   font-family: var(--font-display);
 }
