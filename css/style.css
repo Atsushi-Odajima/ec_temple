@@ -663,28 +663,12 @@ body.nav-open .menu-toggle span:nth-child(2) {
 }
 
 /* ----------------------------------------------------------------------------
-   9. aseed emblem — five-ray star, open ring (12 o'clock to 21 o'clock)
+   9. Brand mark — intentionally none: the wordmark alone carries the brand
    ------------------------------------------------------------------------- */
-
-:root {
-  --mark: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cg%20fill%3D%22%23000%22%3E%3Cpath%20d%3D%22M24%2C4%20A20%2C20%200%201%201%204%2C24%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%2F%3E%3Cpath%20d%3D%22M22.7%2C24%20L24%2C8.5%20L25.3%2C24%20Z%22%2F%3E%3Cpath%20d%3D%22M22.7%2C24%20L24%2C8.5%20L25.3%2C24%20Z%22%20transform%3D%22rotate(60%2024%2024)%22%2F%3E%3Cpath%20d%3D%22M22.7%2C24%20L24%2C8.5%20L25.3%2C24%20Z%22%20transform%3D%22rotate(120%2024%2024)%22%2F%3E%3Cpath%20d%3D%22M22.7%2C24%20L24%2C8.5%20L25.3%2C24%20Z%22%20transform%3D%22rotate(180%2024%2024)%22%2F%3E%3Cpath%20d%3D%22M22.7%2C24%20L24%2C8.5%20L25.3%2C24%20Z%22%20transform%3D%22rotate(240%2024%2024)%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
-}
 
 .stitches,
 .home-card__stitches,
 .p-stitch4 {
-  display: block;
-  width: 26px;
-  height: 26px;
-  margin-inline: auto;
-  background: currentColor;
-  -webkit-mask: var(--mark) center / contain no-repeat;
-  mask: var(--mark) center / contain no-repeat;
-}
-
-.stitches i,
-.home-card__stitches i,
-.p-stitch4 i {
   display: none;
 }
 

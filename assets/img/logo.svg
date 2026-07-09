@@ -1,4 +1,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120">
 <text x="24" y="76" font-family="Jost, Avenir Next, Futura, Century Gothic, Helvetica, Arial, sans-serif" font-size="54" font-weight="300" letter-spacing="16" fill="#111111">aseed</text>
-<g fill="#111111" opacity=".9" transform="translate(300,30) scale(0.85)"><path d="M24,4 A20,20 0 1 1 4,24" fill="none" stroke-linecap="round" stroke="#111111" stroke-width="1.6"/><path d="M22.7,24 L24,8.5 L25.3,24 Z"/><path d="M22.7,24 L24,8.5 L25.3,24 Z" transform="rotate(60 24 24)"/><path d="M22.7,24 L24,8.5 L25.3,24 Z" transform="rotate(120 24 24)"/><path d="M22.7,24 L24,8.5 L25.3,24 Z" transform="rotate(180 24 24)"/><path d="M22.7,24 L24,8.5 L25.3,24 Z" transform="rotate(240 24 24)"/></g>
 </svg>
