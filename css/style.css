@@ -34,6 +34,16 @@
   src: url("../assets/fonts/della-respira.woff2") format("woff2");
 }
 
+/* geometric face used ONLY for the wordmark's two "e" glyphs —
+   its circular bowl and horizontal bar keep the mirrored pair symmetric */
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../assets/fonts/jost-e.woff2") format("woff2");
+}
+
 /* ----------------------------------------------------------------------------
    1. Design tokens
    ------------------------------------------------------------------------- */
@@ -915,6 +925,35 @@ main {
    UPPERCASE (titles, nav, labels) → Marcellus SC
    ========================================================================== */
 
+/* the wordmark's "e" pair — geometric glyphs, right one mirrored */
+.wm-e {
+  font-family: "Jost", "Century Gothic", "Avenir Next", sans-serif;
+  font-weight: 300;
+  font-size: 1.02em;
+}
+
+.wm-e__flip {
+  display: inline-block;
+  /* zero the tracking inside the mirrored box (it would flip to the left
+     side) and restore it as margin, matched per context below */
+  letter-spacing: 0;
+  margin-right: 0.04em;
+  transform: scaleX(-1);
+}
+
+.brand-mark .wm-e__flip,
+.footer-brand .wm-e__flip {
+  margin-right: var(--tracking-xwide);
+}
+
+.home-marquee__seg .wm-e__flip {
+  margin-right: 0.02em;
+}
+
+.maison-marquee__track .wm-e__flip {
+  margin-right: -0.02em;
+}
+
 /* lowercase voice */
 .brand-mark,
 .footer-brand,
@@ -939,6 +978,8 @@ main {
 .site-nav a,
 .footer-nav a,
 .cart-link,
+.home-store__cta,
+.atelier-store,
 .btn,
 .label,
 .eyebrow,

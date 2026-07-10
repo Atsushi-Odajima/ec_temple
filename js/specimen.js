@@ -67,17 +67,26 @@
   function kinetic(el) {
     if (!el || el._fxKinetic) return;
     el._fxKinetic = true;
-    var text = el.textContent;
-    el.textContent = "";
-    el.setAttribute("aria-label", text);
     var letters = [];
-    for (var i = 0; i < text.length; i++) {
-      var span = document.createElement("span");
-      span.className = "k-letter";
-      span.setAttribute("aria-hidden", "true");
-      span.textContent = text.charAt(i);
-      el.appendChild(span);
-      letters.push({ el: span, x: 0, y: 0, r: 0, vx: 0, vy: 0, vr: 0 });
+    var pre = el.querySelectorAll(".k-letter");
+    if (pre.length) {
+      /* pre-split markup (lets pages nest per-letter styling, e.g. the
+         mirrored "e" lives on an inner span so this transform won't clobber it) */
+      for (var p = 0; p < pre.length; p++) {
+        letters.push({ el: pre[p], x: 0, y: 0, r: 0, vx: 0, vy: 0, vr: 0 });
+      }
+    } else {
+      var text = el.textContent;
+      el.textContent = "";
+      el.setAttribute("aria-label", text);
+      for (var i = 0; i < text.length; i++) {
+        var span = document.createElement("span");
+        span.className = "k-letter";
+        span.setAttribute("aria-hidden", "true");
+        span.textContent = text.charAt(i);
+        el.appendChild(span);
+        letters.push({ el: span, x: 0, y: 0, r: 0, vx: 0, vy: 0, vr: 0 });
+      }
     }
     if (REDUCED) return;
     kineticSets.push({ root: el, letters: letters });
