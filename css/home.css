@@ -87,13 +87,6 @@
   animation: home-word-in 1.8s var(--ease) both;
 }
 
-/* one specimen letter set in outline — the second “e” (4th glyph).
-   .k-letter spans exist only once specimen.js splits the word. */
-.home-hero__wordmark .k-letter:nth-child(4) {
-  -webkit-text-stroke: 2px var(--ink);
-  color: transparent;
-}
-
 /* scroll cue — stitch drips down */
 .home-hero__scrollcue {
   position: absolute;
