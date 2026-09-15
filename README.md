@@ -8,9 +8,9 @@ A Japanese / English apparel concept store combining editorial art direction and
 
 ## Explore / 体験する
 
-- [Store / ストア](https://atsushi-odajima.github.io/ec_temple/)
-- [Case study / 制作事例](https://atsushi-odajima.github.io/ec_temple/case-study.html)
-- [English case study](https://atsushi-odajima.github.io/ec_temple/case-study.html?lang=en)
+- [Store / ストア](https://ec-temple.vercel.app/)
+- [Case study / 制作事例](https://ec-temple.vercel.app/case-study.html)
+- [English case study](https://ec-temple.vercel.app/case-study.html?lang=en)
 
 ## The experience
 
@@ -34,7 +34,7 @@ Local storage retains language, product selections and saved product IDs. The ta
 
 ## Run locally
 
-Use Node.js **24.15 or later** (tested on 24.16). No production dependencies; jsdom is a development-only test dependency.
+Use Node.js **24.15 or later within 24.x** (tested on 24.16). No production dependencies; jsdom is a development-only test dependency.
 
 ```sh
 npm ci
@@ -45,6 +45,12 @@ npm run build
 ```
 
 The build prerenders 41 HTML pages, checks every colour and featured gallery asset, validates local references, and writes static output to dist/.
+
+## Deployment
+
+Production is hosted on Vercel. The ec-temple project is connected to this repository; pushes to main trigger production deployments. vercel.json defines the install/build commands, dist output and response headers. Keep .vercel and all .env files out of Git.
+
+GitHub Pages remains available as a secondary mirror. Canonical URLs and the sitemap point to the Vercel production URL.
 
 ## Structure
 

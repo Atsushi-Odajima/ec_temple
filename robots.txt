@@ -3,4 +3,4 @@ Allow: /
 Disallow: /checkout.html
 Disallow: /cart.html
 Disallow: /order.html
-Sitemap: https://atsushi-odajima.github.io/ec_temple/sitemap.xml
+Sitemap: https://ec-temple.vercel.app/sitemap.xml
