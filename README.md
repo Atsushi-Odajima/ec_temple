@@ -6,6 +6,14 @@ A Japanese / English apparel concept store combining editorial art direction and
 
 ![aseed — collection campaign](assets/photos/hero.webp)
 
+## Portfolio highlights / 実装の見どころ
+
+- **買い物の状態管理**：[js/core.mjs](js/core.mjs) で在庫上限・数量・送料・入力検証を扱い、[tests](tests) で境界条件を確認します。
+- **日英の導線と静的生成**：[js/views.mjs](js/views.mjs) と [scripts/build.mjs](scripts/build.mjs) が商品・案内ページを生成します。
+- **素材の由来**：[data/image-provenance.json](data/image-provenance.json) に画像生成の記録を残しています。
+
+入力フォームは体験用です。実際の注文受付・決済・配送につながるものではありません。機能・制限・起動方法は以下を参照してください。
+
 ## Explore / 体験する
 
 - [Store / ストア](https://ec-temple.vercel.app/)
